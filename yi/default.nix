@@ -10,7 +10,7 @@ let
 in cabal.mkDerivation (self: {
   pname = "yi";
   version = "0.8.1";
-  src = ./src;
+  src = /home/shana/programming/yi/yi/src;
   buildDepends = [
     # As imported above
     binary Cabal cautiousFile concreteTyperep dataDefault derive Diff
