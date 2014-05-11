@@ -1,17 +1,19 @@
 let
   pkgs = import <nixpkgs> {};
   inherit (pkgs) stdenv fetchurl ghc perl gmp ncurses haskellPackages
-                 automake autoconf git  dblatex docbook2x
-                 docbook_xml_xslt docbook_xml_dtd_45;
+                 automake autoconf git dblatex docbook2x
+                 docbook_xml_xslt docbook_xml_dtd_45 libxslt libxml2;
 in
 stdenv.mkDerivation rec {
   name = "ghcDev-${version}";
-  version = "7.9.20140511";
+  version = "7.9.20140510";
+  ghcBoot = ghc.ghc782;
 
-  src = /home/shana/programming/ghc;
+  src = "/home/shana/programming/ghc";
 
-  buildInputs = [ ghc.ghc763 perl gmp ncurses automake autoconf git
-                  haskellPackages.happy_1_19_3 haskellPackages.alex_3_1_3 ];
+  buildInputs = [ ghcBoot perl gmp ncurses automake autoconf git
+                  haskellPackages.happy_1_19_3 haskellPackages.alex_3_1_3
+                  libxslt dblatex libxml2 ];
 
   enableParallelBuilding = true;
 
@@ -43,6 +45,6 @@ stdenv.mkDerivation rec {
       stdenv.lib.maintainers.andres
       stdenv.lib.maintainers.simons
     ];
-    inherit (ghc.ghc742.meta) license platforms;
+    inherit (ghcBoot.meta) license platforms;
   };
 }
