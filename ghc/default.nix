@@ -6,14 +6,14 @@ let
 in
 stdenv.mkDerivation rec {
   name = "ghcDev-${version}";
-  version = "7.9.20140510";
+  version = "7.9.20140512";
   ghcBoot = ghc.ghc782;
 
   src = "/home/shana/programming/ghc";
 
   buildInputs = [ ghcBoot perl gmp ncurses automake autoconf git
                   haskellPackages.happy_1_19_3 haskellPackages.alex_3_1_3
-                  libxslt dblatex libxml2 ];
+                  libxslt libxml2 pkgs.python ];
 
   enableParallelBuilding = true;
 
@@ -21,6 +21,7 @@ stdenv.mkDerivation rec {
     libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-gmp-libraries="${gmp}/lib"
     libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-gmp-includes="${gmp}/include"
     DYNAMIC_BY_DEFAULT = NO
+    BuildFlavour = quick
   '';
 
   preConfigure = ''
