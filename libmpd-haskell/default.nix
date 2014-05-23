@@ -1,4 +1,6 @@
-{ haskellPackages ? (import <nixpkgs>{}).haskellPackages_ghc763 }:
+{ haskellPackages ? (import <nixpkgs>{}).haskellPackages_ghc763
+, test ? true
+}:
 with haskellPackages; cabal.mkDerivation (self: rec {
   pname = "libmpd";
   version = "0.9.0";
@@ -10,5 +12,5 @@ with haskellPackages; cabal.mkDerivation (self: rec {
     attoparsec dataDefault filepath mtl network text time utf8String
   ];
   testDepends = buildDepends ++ [ QuickCheck hspec ];
-  doCheck = true;
+  doCheck = test;
 })
