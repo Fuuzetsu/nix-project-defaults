@@ -1,7 +1,7 @@
 { haskellPackages ? (import <nixpkgs>{}).haskellPackages_ghc763
 }:
 let
-  inherit (haskellPackages) cabal dataDefault freeGame
+  inherit (haskellPackages) cabal dataDefault freeGame lens
     minioperational mtl time transformers vector cabalInstall;
 
 in cabal.mkDerivation (self: {
