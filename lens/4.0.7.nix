@@ -24,6 +24,9 @@ in cabal.mkDerivation (self: {
     testFrameworkHunit testFrameworkQuickcheck2 testFrameworkTh text
     transformers unorderedContainers vector
   ];
+
+  doCheck = false;
+
   meta = {
     homepage = "http://github.com/ekmett/lens/";
     description = "Lenses, Folds and Traversals";
