@@ -1,8 +1,7 @@
 { haskellPackages ? (import <nixpkgs>{}).haskellPackages_ghc763
-, lens_4_0_7 ? (import /home/shana/programming/nix-project-defaults/lens/4.0.7.nix {})
 }:
 let
-  inherit (haskellPackages) cabal dataDefault freeGame_1_0_5
+  inherit (haskellPackages) cabal dataDefault freeGame
     minioperational mtl time transformers vector cabalInstall;
 
 in cabal.mkDerivation (self: {
@@ -12,14 +11,14 @@ in cabal.mkDerivation (self: {
   isLibrary = false;
   isExecutable = true;
   buildDepends = [
-    dataDefault freeGame_1_0_5 lens_4_0_7 minioperational mtl time
+    dataDefault freeGame lens minioperational mtl time
     transformers vector
   ];
   buildTools = [ cabalInstall ];
   meta = {
     homepage = "https://github.com/myuon/Chimera";
     description = "something fun and new through gaming";
-    #license = self.stdenv.lib.licenses.unfree;
+    license = self.stdenv.lib.licenses.mit;
     platforms = self.ghc.meta.platforms;
   };
 })
