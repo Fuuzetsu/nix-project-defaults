@@ -6,7 +6,7 @@ let
 in
 stdenv.mkDerivation rec {
   name = "ghcDev-${version}";
-  version = "7.9.20140512";
+  version = "7.9.20140530";
   ghcBoot = ghc.ghc782;
 
   src = "/home/shana/programming/ghc";
