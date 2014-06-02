@@ -1,19 +1,16 @@
-let
-  pkgs = import <nixpkgs> {};
-  inherit (pkgs) stdenv fetchurl ghc perl gmp ncurses haskellPackages
-                 automake autoconf git dblatex docbook2x
-                 docbook_xml_xslt docbook_xml_dtd_45 libxslt libxml2;
-in
+{ stdenv, fetchurl, ghc, perl, gmp, ncurses
+, happy, alex, automake, autoconf, git
+, libxslt, libxml2, python
+}:
+
 stdenv.mkDerivation rec {
-  name = "ghcDev-${version}";
+  name = "ghc-${version}";
   version = "7.9.20140530";
-  ghcBoot = ghc.ghc782;
 
   src = "/home/shana/programming/ghc";
 
-  buildInputs = [ ghcBoot perl gmp ncurses automake autoconf git
-                  haskellPackages.happy_1_19_3 haskellPackages.alex_3_1_3
-                  libxslt libxml2 pkgs.python ];
+  buildInputs = [ ghc perl gmp ncurses automake autoconf
+                  git happy alex libxslt libxml2 python ];
 
   enableParallelBuilding = true;
 
@@ -46,6 +43,6 @@ stdenv.mkDerivation rec {
       stdenv.lib.maintainers.andres
       stdenv.lib.maintainers.simons
     ];
-    inherit (ghcBoot.meta) license platforms;
+    inherit (ghc.meta) license platforms;
   };
 }
