@@ -1,6 +1,17 @@
-{ stdenv, fetchurl, ghc, perl, gmp, ncurses
-, happy, alex, automake, autoconf, git
-, libxslt, libxml2, python
+{ pkgs ? (import <nixpkgs> {})
+, stdenv ? pkgs.stdenv
+, ghc ? pkgs.ghc.ghc782
+, perl ? pkgs.perl
+, gmp ? pkgs.gmp
+, ncurses ? pkgs.ncurses
+, happy ? pkgs.haskellPackages.happy
+, alex ? pkgs.haskellPackages.alex
+, automake ? pkgs.automake
+, autoconf ? pkgs.autoconf
+, git ? pkgs.git
+, libxslt ? pkgs.libxslt
+, libxml2 ? pkgs.libxml2
+, python ? pkgs.python
 }:
 
 stdenv.mkDerivation rec {
