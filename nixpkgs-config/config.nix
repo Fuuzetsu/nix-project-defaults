@@ -10,6 +10,13 @@
     };
   };
 
-  cantata = self.cantata.override { withQt4 = false; withQt5 = true; };
-
+  cantataNixpkgs = self.cantata;
+  cantata = lib.overrideDerivation # Local SVN checkout
+               (cantataNixpkgs.override { withQt4 = false; withQt5 = true; })
+               (attrs: rec {
+                  name = "cantata-1.3.54";
+                  src = /home/shana/programming/cantata;
+                  unpackPhase = "";
+                  sourceRoot = "";
+               });
 }; }
