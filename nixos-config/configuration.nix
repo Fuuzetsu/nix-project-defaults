@@ -161,12 +161,6 @@
   hardware.pulseaudio.enable = true;
   boot.blacklistedKernelModules = [ "snd_pcsp" ];
 
-  environment.variables = { NIX_PATH = pkgs.lib.mkOverride 0 [ "nixpkgs=/home/shana/programming/nixpkgs"
-  			    	       			       "nixos=/home/shana/programming/nixpkgs/nixos"
-                                                               "nixos-config=/etc/nixos/configuration.nix"
-                                                             ];
-                          };
-
   services.udev.extraRules = ''
     ATTRS{idVendor}=="054c", ATTRS{idProduct}=="0268", MODE:="0660", GROUP:="uinput"
 
