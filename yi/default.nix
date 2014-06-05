@@ -1,5 +1,5 @@
 { haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghc763
-, withPango ? false }:
+, withPango ? true }:
 let
   inherit (haskellPackages) cabal cabalInstall_1_18_0_3 alex
     binary Cabal cautiousFile concreteTyperep dataDefault derive Diff
