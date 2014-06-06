@@ -28,12 +28,13 @@ in cabal.mkDerivation (self: {
     mv $out/bin/yi $out/bin/.yi-wrapped
     cat - > $out/bin/yi <<EOF
     #! ${self.stdenv.shell}
-    YI_LIB=$out/lib/ghc-${self.ghc.version}/package.conf.d/yi-$version.installedconf
     # Trailing : is necessary for it to pick up Prelude &c.
     export GHC_PACKAGE_PATH=$(${self.ghc.GHCGetPackages} ${self.ghc.version} \
                               | sed 's/-package-db\ //g' \
                               | sed 's/^\ //g' \
-                              | sed 's/\ /:/g'):$YI_LIB:
+                              | sed 's/\ /:/g')\
+    :$out/lib/ghc-${self.ghc.version}/package.conf.d/yi-$version.installedconf:
+
     eval exec $out/bin/.yi-wrapped "\$@"
     EOF
     chmod +x $out/bin/yi
