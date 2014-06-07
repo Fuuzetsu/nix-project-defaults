@@ -1,13 +1,13 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghc763
+{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghc782
 , withPango ? true }:
 let
-  inherit (haskellPackages) cabal cabalInstall_1_18_0_3 alex
+  inherit (haskellPackages) cabal cabalInstall alex
     binary Cabal cautiousFile concreteTyperep dataDefault derive Diff
     dlist dyre filepath fingertree glib gtk hashable hint lens mtl
     pango parsec pointedlist QuickCheck_2_7_3 random regexBase regexTdfa safe
     split time transformersBase uniplate unixCompat unorderedContainers
-    utf8String vty xdgBasedir tfRandom HUnit QuickCheck tasty tastyHunit
-    tastyQuickcheck;
+    utf8String xdgBasedir tfRandom HUnit QuickCheck tasty tastyHunit
+    tastyQuickcheck vty_5_1_0;
 
 in cabal.mkDerivation (self: {
   pname = "yi";
@@ -19,9 +19,9 @@ in cabal.mkDerivation (self: {
     dlist dyre filepath fingertree hashable hint lens mtl
     parsec pointedlist QuickCheck_2_7_3 random regexBase regexTdfa safe
     split time transformersBase uniplate unixCompat unorderedContainers
-    utf8String vty xdgBasedir tfRandom
+    utf8String vty_5_1_0 xdgBasedir tfRandom
   ] ++ (if withPango then [ pango gtk glib ] else [ ]);
-  buildTools = [ cabalInstall_1_18_0_3 alex ];
+  buildTools = [ cabalInstall alex ];
   testDepends = [ filepath HUnit QuickCheck tasty tastyHunit tastyQuickcheck ];
 
   postInstall = ''
@@ -43,6 +43,6 @@ in cabal.mkDerivation (self: {
   isExecutable = true;
   enableSplitObjs = false;
   doCheck = false;
-  noHaddock = true;
+  noHaddock = false;
   configureFlags = [ (if withPango then "-fpango" else "-f-pango") ];
 })
