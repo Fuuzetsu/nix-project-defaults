@@ -119,7 +119,7 @@
     useDefaultShell = true;
   };
 
-  nixpkgs.system = "i686-linux";
+  nixpkgs.system = "x86_64-linux";
 
   #services.xserver.windowManager.xmonad.enable = true;
 
