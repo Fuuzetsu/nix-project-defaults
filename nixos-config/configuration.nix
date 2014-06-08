@@ -123,35 +123,42 @@
 
   #services.xserver.windowManager.xmonad.enable = true;
 
-  environment.systemPackages =
-    [ pkgs.firefox
-      pkgs.thunderbird
-      (pkgs.emacs.override { gtk = pkgs.gtk3; })
-      pkgs.elfutils
-      pkgs.file
-      pkgs.git
-      pkgs.gnupg
-      pkgs.htop
-      (pkgs.mpv.override { pulseSupport = true; })
-      pkgs.redshift
-      pkgs.sudo
-      pkgs.wget
-      pkgs.xsel
-      pkgs.zsh
-      pkgs.unetbootin
-      pkgs.gtk3
-      pkgs.glib
-      #pkgs.gsettings-desktop-schemas
-      pkgs.uzbl
-      pkgs.mumble
-      pkgs.scrot
-      pkgs.screen
-      pkgs.mpd
-      # pkgs.sshfs-fuse
-      # pkgs.nitrogen
-      # pkgs.ghc
-      # pkgs.haskell-xmonad-ghc7.6.3
-      # pkgs.haskell-xmonad-contrib-ghc7.6.3-0.12-profiling
+  environment.systemPackages = with pkgs;
+    [ firefox
+      thunderbird
+      (emacs.override { gtk = gtk3; })
+      elfutils
+      file
+      git
+      gnupg
+      htop
+      (mpv.override { pulseSupport = true; })
+      redshift
+      sudo
+      wget
+      xsel
+      zsh
+      unetbootin
+      gtk3
+      glib
+      #gsettings-desktop-schemas
+      uzbl
+      mumble
+      scrot
+      screen
+      mpd
+      cantata
+      PPSSPP
+      sshfsFuse
+      (haskellPackages.ghcWithPackages (self :
+        [ self.cabalInstall
+          self.xmonad
+          self.xmonadContrib
+          self.xmonadExtras
+          self.cabal2nix
+          self.lens
+          self.Agda
+        ]))
     ];
 
   nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" ];
