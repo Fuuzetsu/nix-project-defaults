@@ -1,8 +1,8 @@
-{ haskellPackages ? (import <nixpkgs>{}).haskellPackages_ghc763
+{ haskellPackages ? (import <nixpkgs>{}).myHaskellPackages_ghc763
 }:
 let
   inherit (haskellPackages) cabal dataDefault freeGame lens
-    minioperational mtl time transformers vector cabalInstall;
+    minioperational mtl time transformers vector;
 
 in cabal.mkDerivation (self: {
   pname = "Chimera";
@@ -14,7 +14,6 @@ in cabal.mkDerivation (self: {
     dataDefault freeGame lens minioperational mtl time
     transformers vector
   ];
-  buildTools = [ cabalInstall ];
   meta = {
     homepage = "https://github.com/myuon/Chimera";
     description = "something fun and new through gaming";
