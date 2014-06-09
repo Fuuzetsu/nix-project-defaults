@@ -70,8 +70,7 @@
 
   # Select internationalisation properties.
   i18n = {
-    # consoleFont = "lat9w-16";
-    consoleKeyMap = "dvorak";
+    consoleKeyMap = "/home/shana/keymaps/dvp-1_2_1.map.gz";
     defaultLocale = "en_US.UTF-8";
   };
 
@@ -92,7 +91,7 @@
   services.xserver.layout = "us";
 
   # services.xserver.xkbOptions = "eurosign:e";
-  services.xserver.xkbVariant = "dvorak";
+  services.xserver.xkbVariant = "dvp";
 
   # Enable the KDE Desktop Environment.
   services.xserver.desktopManager.kde4.enable = true;
