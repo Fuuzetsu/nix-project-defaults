@@ -150,6 +150,10 @@
       cantata
       PPSSPP
       sshfsFuse
+      python27Packages.livestreamer
+      corefonts
+      dejavu_fonts
+      freetype
       (haskellPackages.ghcWithPackages (self :
         [ self.cabalInstall
           self.xmonad
