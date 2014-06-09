@@ -76,6 +76,12 @@
     exec = ''xmodmap -e "pointer = 3 2 1"'';
   };
 
+  jobs.mousepointer = {
+    description = "Set a better pointer for the X mouse cursor.";
+    startOn = "started display-manager";
+    exec = "xsetroot -cursor_name left_ptr";
+  };
+
   networking.hostName = "lenalee";
   networking.firewall.enable = false;
 
