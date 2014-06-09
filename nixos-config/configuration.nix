@@ -87,7 +87,6 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  # services.xserver.vaapiDrivers = [ pkgs.vaapiIntel ];
   services.xserver.layout = "us";
 
   # services.xserver.xkbOptions = "eurosign:e";
