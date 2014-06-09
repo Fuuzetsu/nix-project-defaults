@@ -153,9 +153,6 @@
       PPSSPP
       sshfsFuse
       python27Packages.livestreamer
-      corefonts
-      dejavu_fonts
-      freetype
       xlibs.xmodmap
       xlibs.xsetroot
       (haskellPackages.ghcWithPackages (self :
@@ -168,6 +165,11 @@
           self.Agda
         ]))
     ];
+
+  fonts.enableCoreFonts = true;
+  fonts.enableFontConfig = true;
+  fonts.enableFontDir = true;
+  fonts.enableGhostscriptFonts = true;
 
   nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" ];
   nix.gc.automatic = true;
