@@ -94,8 +94,12 @@
   services.xserver.xkbVariant = "dvp";
 
   # Enable the KDE Desktop Environment.
-  services.xserver.desktopManager.kde4.enable = true;
-  services.xserver.displayManager.kdm.enable = true;
+  services.xserver.windowManager.xmonad.enable = true;
+  services.xserver.windowManager.xmonad.enableContribAndExtras = true;
+  services.xserver.windowManager.default = "xmonad";
+  services.xserver.desktopManager.default = "none";
+  # services.xserver.desktopManager.kde4.enable = true;
+  # services.xserver.displayManager.kdm.enable = true;
 
   # NFS
   services.nfs.server.enable = true;
@@ -119,8 +123,6 @@
   };
 
   nixpkgs.system = "x86_64-linux";
-
-  #services.xserver.windowManager.xmonad.enable = true;
 
   environment.systemPackages = with pkgs;
     [ firefox
