@@ -63,25 +63,6 @@
   swapDevices =
     [ { device = "/dev/disk/by-label/lenalee-swap"; } ];
 
-
-  jobs.redshift = {
-    description = "Start redshift at boot.";
-    startOn = "started display-manager";
-    exec = "redshift -l 51:-2";
-  };
-
-  jobs.mouseflip = {
-    description = "Flip left and right mouse buttons.";
-    startOn = "started display-manager";
-    exec = ''xmodmap -e "pointer = 3 2 1"'';
-  };
-
-  jobs.mousepointer = {
-    description = "Set a better pointer for the X mouse cursor.";
-    startOn = "started display-manager";
-    exec = "xsetroot -cursor_name left_ptr";
-  };
-
   networking.hostName = "lenalee";
   networking.firewall.enable = false;
 
@@ -107,16 +88,19 @@
   services.xserver.enable = true;
   services.xserver.layout = "us";
 
-  # services.xserver.xkbOptions = "eurosign:e";
+  services.xserver.xkbOptions = "compose:caps";
   services.xserver.xkbVariant = "dvp";
 
-  # Enable the KDE Desktop Environment.
   services.xserver.windowManager.xmonad.enable = true;
   services.xserver.windowManager.xmonad.enableContribAndExtras = true;
   services.xserver.windowManager.default = "xmonad";
   services.xserver.desktopManager.default = "none";
-  # services.xserver.desktopManager.kde4.enable = true;
-  # services.xserver.displayManager.kdm.enable = true;
+
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.redshift}/bin/redshift -l 51:-2 &
+    ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
+    ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
+  '';
 
   # NFS
   services.nfs.server.enable = true;
@@ -172,6 +156,8 @@
       corefonts
       dejavu_fonts
       freetype
+      xlibs.xmodmap
+      xlibs.xsetroot
       (haskellPackages.ghcWithPackages (self :
         [ self.cabalInstall
           self.xmonad
