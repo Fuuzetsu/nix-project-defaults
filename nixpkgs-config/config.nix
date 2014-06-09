@@ -5,9 +5,7 @@
   haskellPackages_ghcHEAD = self.haskell.packages {
     ghcPath = /home/shana/programming/ghc;
     ghcBinary = self.haskellPackages.ghcPlain;
-    prefFun = hself: hsuper: self.haskell.ghcHEADPrefs hself hsuper // {
-      mtl = hself.mtl_2_2_0_1;
-    };
+    prefFun = self.haskell.ghcHEADPrefs;
   };
 
   myHaskellPackages_ghc763 = myHaskellPackagesVer pkgs.haskellPackages_ghc763;
