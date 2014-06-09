@@ -64,6 +64,18 @@
     [ { device = "/dev/disk/by-label/lenalee-swap"; } ];
 
 
+  jobs.redshift = {
+    description = "Start redshift at boot.";
+    startOn = "started display-manager";
+    exec = "redshift -l 51:-2";
+  };
+
+  jobs.mouseflip = {
+    description = "Flip left and right mouse buttons.";
+    startOn = "started display-manager";
+    exec = ''xmodmap -e "pointer = 3 2 1"'';
+  };
+
   networking.hostName = "lenalee";
   networking.firewall.enable = false;
 
