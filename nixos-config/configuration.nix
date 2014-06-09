@@ -155,6 +155,11 @@
       python27Packages.livestreamer
       xlibs.xmodmap
       xlibs.xsetroot
+      kde4.oxygen_icons
+      lsof
+      unetbootin
+      wireshark
+      rxvt_unicode
       (haskellPackages.ghcWithPackages (self :
         [ self.cabalInstall
           self.xmonad
