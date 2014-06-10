@@ -97,10 +97,13 @@
   services.xserver.desktopManager.default = "none";
 
   services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.redshift}/bin/redshift -l 51:-2 &
     ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
     ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
   '';
+
+  services.redshift.enable = true;
+  services.redshift.latitude = "51";
+  services.redshift.longitude = "-2";
 
   # NFS
   services.nfs.server.enable = true;
