@@ -131,7 +131,7 @@
   environment.systemPackages = with pkgs;
     [ firefox
       thunderbird
-      (emacs.override { gtk = gtk3; })
+      emacs
       elfutils
       file
       git
