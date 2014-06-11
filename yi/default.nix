@@ -8,9 +8,7 @@ let
     pango parsec pointedlist QuickCheck_2_7_3 random regexBase regexTdfa safe
     split time transformersBase uniplate unixCompat unorderedContainers
     utf8String xdgBasedir tfRandom HUnit QuickCheck tasty tastyHunit
-    tastyQuickcheck;
-  Cabal = haskellPackages.Cabal_1_18_1_3;
-  vty = haskellPackages.vty_5_1_0.override { Cabal = Cabal; };
+    tastyQuickcheck vty_5_1_0 Cabal;
 in cabal.mkDerivation (self: {
   pname = "yi";
   version = "0.8.1";
@@ -21,7 +19,7 @@ in cabal.mkDerivation (self: {
     dlist dyre filepath fingertree hashable hint lens mtl
     parsec pointedlist QuickCheck_2_7_3 random regexBase regexTdfa safe
     split time transformersBase uniplate unixCompat unorderedContainers
-    utf8String vty xdgBasedir tfRandom
+    utf8String vty_5_1_0 xdgBasedir tfRandom
   ] ++ (if withPango then [ pango gtk glib ] else [ ]);
   buildTools = [ alex ];
   testDepends = [ filepath HUnit QuickCheck tasty tastyHunit tastyQuickcheck ];
