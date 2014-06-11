@@ -55,10 +55,25 @@
     options = "bind";
   };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/541a5fab-0935-4dd1-b54c-f7b43e4b0947";
-      fsType = "ext4";
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/541a5fab-0935-4dd1-b54c-f7b43e4b0947";
+    fsType = "ext4";
+  };
+
+  fileSystems."/mnt/yami" = {
+    device = "yuuki:/yami";
+    fsType = "nfs";
+  };
+
+  fileSystems."/mnt/mikan" = {
+    device = "yuuki:/mikan";
+    fsType = "nfs";
+  };
+
+  fileSystems."/mnt/hitagi" = {
+    device = "yuuki:/hitagi";
+    fsType = "nfs";
+  };
 
   swapDevices =
     [ { device = "/dev/disk/by-label/lenalee-swap"; } ];
