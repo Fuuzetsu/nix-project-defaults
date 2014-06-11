@@ -42,7 +42,7 @@ in cabal.mkDerivation (self: {
   isLibrary = true;
   isExecutable = true;
   enableSplitObjs = false;
-  doCheck = false;
-  noHaddock = false;
+  doCheck = true;
+  noHaddock = true;
   configureFlags = [ (if withPango then "-fpango" else "-f-pango") ];
 })
