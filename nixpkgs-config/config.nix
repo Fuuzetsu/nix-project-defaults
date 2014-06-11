@@ -14,6 +14,9 @@
 
   myHaskellPackagesVer = ver : pkgs.recurseIntoAttrs (ver.override {
     extension = se : su : {
+      vty_5_1_0 = se.callPackage /home/shana/programming/nix-project-defaults/vty/5.1.0.nix {
+        Cabal = se.Cabal_1_20_0_0;
+      };
       testFrameworkSmallcheck =
         se.callPackage /home/shana/programming/nix-project-defaults/test-framework-smallcheck {};
     };
