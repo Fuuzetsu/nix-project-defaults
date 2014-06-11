@@ -81,6 +81,9 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  services.locate.enable = true;
+  services.locate.period = "00 15 * * *";
+
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
