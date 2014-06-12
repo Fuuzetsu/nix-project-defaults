@@ -1,4 +1,4 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghcHEAD
+{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghcHEAD
 , haddockLibrary ? (import /home/shana/programming/haddock/haddock-library {})
 }:
 

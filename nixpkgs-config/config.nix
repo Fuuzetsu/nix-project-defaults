@@ -10,7 +10,15 @@
 
   myHaskellPackages_ghc763 = myHaskellPackagesVer pkgs.haskellPackages_ghc763;
   myHaskellPackages_ghc782 = myHaskellPackagesVer pkgs.haskellPackages_ghc782;
-  myHaskellPackages_ghcHEAD = myHaskellPackagesVer pkgs.haskellPackages_ghcHEAD;
+
+  myHaskellPackages_ghcHEAD = pkgs.recurseIntoAttrs (haskellPackages_ghcHEAD.override {
+    extension = se : su : {
+      vty_5_1_0 = se.callPackage /home/shana/programming/nix-project-defaults/vty/5.1.0.nix {};
+      mtl = se.callPackage /home/shana/programming/nix-project-defaults/mtl/2.2.1.nix {};
+      testFrameworkSmallcheck =
+        se.callPackage /home/shana/programming/nix-project-defaults/test-framework-smallcheck {};
+    };
+  });
 
   myHaskellPackagesVer = ver : pkgs.recurseIntoAttrs (ver.override {
     extension = se : su : {
