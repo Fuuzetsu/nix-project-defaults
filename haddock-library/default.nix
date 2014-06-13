@@ -1,9 +1,7 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghcHEAD
-, haskellBinPackages ? (import <nixpkgs> {}).haskellPackages_ghc782
+{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghcHEAD
 }:
 let
   inherit (haskellPackages) cabal deepseq QuickCheck hspec;
-  inherit (haskellBinPackages) cabalInstall;
 in
 cabal.mkDerivation (self: {
   pname = "haddock-library";
@@ -11,6 +9,7 @@ cabal.mkDerivation (self: {
   src = /home/shana/programming/haddock/haddock-library;
   testDepends = [ QuickCheck hspec ];
   buildDepends = [ deepseq ];
-  buildTools = [ cabalInstall ];
+  isLibrary = true;
+  isExecutable = false;
   enableSplitObjs = false;
 })

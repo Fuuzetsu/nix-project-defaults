@@ -8,6 +8,8 @@ haskellPackages.cabal.mkDerivation (self: {
   src = /home/shana/programming/haddock/src;
   buildDepends = with haskellPackages;
                    [ Cabal deepseq filepath ghcPaths xhtml haddockLibrary ];
-  buildTools = [ haskellPackages.cabalInstall ];
+  testDepends = with haskellPackages; [ Cabal deepseq filepath hspec QuickCheck ];
+  isLibrary = true;
+  isExecutable = true;
   enableSplitObjs = false;
 })
