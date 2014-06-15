@@ -16,7 +16,7 @@
 
 stdenv.mkDerivation rec {
   name = "ghc-${version}";
-  version = "7.9.20140612";
+  version = "7.9.20140614";
 
   src = "/home/shana/programming/ghc";
 
