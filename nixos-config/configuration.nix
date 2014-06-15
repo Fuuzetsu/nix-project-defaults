@@ -90,6 +90,7 @@
 
   # nVidia driver
   nixpkgs.config.allowUnfree = true;
+  hardware.opengl.driSupport32Bit = true;
 
   # List services that you want to enable:
 
