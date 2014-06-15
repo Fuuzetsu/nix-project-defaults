@@ -1,4 +1,4 @@
-{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghc782
+{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghc763
 , withPango ? true }:
 
 let
