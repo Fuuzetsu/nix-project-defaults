@@ -12,4 +12,5 @@ haskellPackages.cabal.mkDerivation (self: {
   isLibrary = true;
   isExecutable = true;
   enableSplitObjs = false;
+  noHaddock = true;
 })
