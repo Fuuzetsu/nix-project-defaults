@@ -99,6 +99,8 @@
 
   services.locate.enable = true;
   services.locate.period = "00 15 * * *";
+  services.locate.netpaths = [ /mnt/hitagi /mnt/mikan /mnt/yami ];
+  services.locate.netuser = "shana";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
