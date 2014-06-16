@@ -118,6 +118,7 @@
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
     ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
+    nitrogen --restore
   '';
 
   services.redshift.enable = true;
