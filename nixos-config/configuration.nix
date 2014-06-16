@@ -115,6 +115,10 @@
   services.xserver.windowManager.default = "xmonad";
   services.xserver.desktopManager.default = "none";
 
+  services.xserver.displayManager.slim.defaultUser = "shana";
+  services.xserver.displayManager.slim.autoLogin = false;
+  services.xserver.displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r3.tar.gz";
+
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
     ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
