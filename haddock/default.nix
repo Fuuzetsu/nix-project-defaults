@@ -1,5 +1,6 @@
 { haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghcHEAD
-, haddockLibrary ? (import /home/shana/programming/haddock/haddock-library {})
+, haddockLibrary ? (import /home/shana/programming/haddock/haddock-library
+    { haskellPackages = haskellPackages; })
 }:
 
 haskellPackages.cabal.mkDerivation (self: {

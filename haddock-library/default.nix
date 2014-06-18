@@ -1,4 +1,4 @@
-{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghcHEAD
+{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghc763
 }:
 let
   inherit (haskellPackages) cabal deepseq QuickCheck hspec baseCompat;
