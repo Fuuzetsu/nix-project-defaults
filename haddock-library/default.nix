@@ -12,4 +12,5 @@ cabal.mkDerivation (self: {
   isLibrary = true;
   isExecutable = false;
   enableSplitObjs = false;
+  doCheck = false;
 })
