@@ -5,7 +5,9 @@
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
       /home/shana/programming/nix-project-defaults/nixos-config/configuration.nix
+      <nixos/modules/programs/virtualbox.nix>
     ];
+  nixpkgs.config.virtualbox.enableExtensionPack = true;
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -148,7 +150,7 @@
     createHome = true;
     home = "/home/shana";
     description = "Mateusz Kowalczyk";
-    extraGroups = [ "wheel" "audio" "video" ];
+    extraGroups = [ "wheel" "audio" "video" "vboxusers" ];
     useDefaultShell = true;
   };
 
