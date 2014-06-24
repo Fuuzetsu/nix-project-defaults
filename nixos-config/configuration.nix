@@ -196,7 +196,8 @@
           self.xmonadExtras
           self.cabal2nix
           self.lens
-          self.Agda
+          # self.Agda
+          # self.AgdaStdlib_2_4_0
         ]))
     ];
 
