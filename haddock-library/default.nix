@@ -5,7 +5,7 @@ let
 in
 cabal.mkDerivation (self: {
   pname = "haddock-library";
-  version = "2.15.0";
+  version = "1.1.0";
   src = /home/shana/programming/haddock/haddock-library;
   testDepends = [ QuickCheck hspec baseCompat ];
   buildDepends = [ deepseq ];
