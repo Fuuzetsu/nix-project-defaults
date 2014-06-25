@@ -208,7 +208,7 @@
   fonts.enableGhostscriptFonts = true;
 
   nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" ];
-  nix.gc.automatic = true;
+  nix.gc.automatic = false;
   nix.gc.dates = "16:00";
 
   hardware.pulseaudio.enable = true;
