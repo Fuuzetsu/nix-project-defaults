@@ -164,7 +164,7 @@
       git
       gnupg
       htop
-      (mpv.override { pulseSupport = true; })
+      (mpv.override { pulseSupport = false; })
       redshift
       sudo
       wget
@@ -178,7 +178,7 @@
       mumble
       scrot
       screen
-      mpd
+      (mpd.override { pulseaudioSupport = false; })
       cantata
       PPSSPP
       sshfsFuse
@@ -211,7 +211,7 @@
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
 
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
   boot.blacklistedKernelModules = [ "snd_pcsp" ];
 
   services.udev.extraRules = ''
