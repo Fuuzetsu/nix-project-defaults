@@ -25,7 +25,7 @@ in
   haskellPackages_ghcHEAD = ghcHEAD_overrides (recurseIntoAttrs packages_ghcHEAD.highPrio);
 
   myHaskellPackages_ghc763 = myHaskellPackagesVer haskellPackages_ghc763;
-  myHaskellPackages_ghc782 = myHaskellPackagesVer haskellPackages_ghc782;
+  myHaskellPackages_ghc783 = myHaskellPackagesVer haskellPackages_ghc783;
 
   myHaskellPackagesVer = ver : recurseIntoAttrs (ver.override {
     extension = se : su : {
