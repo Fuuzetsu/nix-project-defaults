@@ -190,6 +190,7 @@
       unetbootin
       wireshark
       rxvt_unicode
+      pinentry
       (haskellPackages.ghcWithPackages (self :
         [ self.cabalInstall
           self.xmonad
