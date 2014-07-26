@@ -1,4 +1,4 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghc783
+{ haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghcHEAD
 , pkgs ? (import <nixpkgs> {})
 , autoconf ? pkgs.autoconf
 , libxslt ? pkgs.libxslt
