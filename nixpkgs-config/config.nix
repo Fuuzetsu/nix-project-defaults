@@ -35,9 +35,6 @@ in
       };
       testFrameworkSmallcheck =
         se.callPackage /home/shana/programming/nix-project-defaults/test-framework-smallcheck {};
-
-      networkBytestring = se.callPackage /home/shana/programming/nix-project-defaults/network-bytestring {};
-
     };
   });
 
