@@ -24,6 +24,7 @@ in
   haskellPackages_ghcHEAD_profiling = ghcHEAD_overrides (recurseIntoAttrs packages_ghcHEAD.profiling);
   haskellPackages_ghcHEAD = ghcHEAD_overrides (recurseIntoAttrs packages_ghcHEAD.highPrio);
 
+  myHaskellPackages_ghc742 = myHaskellPackagesVer haskellPackages_ghc742;
   myHaskellPackages_ghc763 = myHaskellPackagesVer haskellPackages_ghc763;
   myHaskellPackages_ghc783 = myHaskellPackagesVer haskellPackages_ghc783;
 
@@ -34,6 +35,9 @@ in
       };
       testFrameworkSmallcheck =
         se.callPackage /home/shana/programming/nix-project-defaults/test-framework-smallcheck {};
+
+      networkBytestring = se.callPackage /home/shana/programming/nix-project-defaults/network-bytestring {};
+
     };
   });
 
