@@ -120,7 +120,7 @@
 
   services.xserver.displayManager.slim.defaultUser = "shana";
   services.xserver.displayManager.slim.autoLogin = false;
-  services.xserver.displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r3.tar.gz";
+  services.xserver.displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r6.tar.gz";
 
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
