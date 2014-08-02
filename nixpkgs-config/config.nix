@@ -32,7 +32,7 @@ in
   myHaskellPackages_ghc783 = myHaskellPackagesVer haskellPackages_ghc783;
 
   myHaskellPackagesVer = ver : recurseIntoAttrs (ver.override {
-    extension = se : su : {
+    extension = se : su : rec {
       vty_5_1_0 = se.callPackage (npd + "vty/5.1.0.nix") {
         Cabal = se.Cabal_1_20_0_0;
       };
@@ -46,6 +46,9 @@ in
       splitChannel = se.callPackage (htd + "split-channel") {};
       bitsExtras = se.callPackage (htd + "bits-extras") {};
       base32Bytestring = se.callPackage (htd + "base32-bytestring") {};
+      cryptohash_0_10_0 = se.callPackage (htd + "cryptohash/0.10.0.nix") {};
+      cryptohash = se.callPackage (htd + "cryptohash") {};
+      #bittorrent = se.callPackage (htd + "bittorrent") { cryptohash = cryptohash_0_10_0; };
     };
 
 
