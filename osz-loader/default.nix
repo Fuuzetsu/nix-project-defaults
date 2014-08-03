@@ -5,6 +5,9 @@ haskellPackages.cabal.mkDerivation (self: {
   pname = "osz-loader";
   version = "0.1.0.0";
   src = /home/shana/programming/osz-loader;
+  buildDepends = with haskellPackages; [ text attoparsec ];
+  testDepends = with haskellPackages; [ doctest QuickCheck hspec ];
+  doCheck = true;
   meta = {
     homepage = "http://github.com/Fuuzetsu/osz-loader";
     description = "Loads up osu! .osz files, including parsing any .osu files inside";
