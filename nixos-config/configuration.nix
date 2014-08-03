@@ -203,10 +203,21 @@
         ]))
     ];
 
-  fonts.enableCoreFonts = true;
-  fonts.enableFontConfig = true;
-  fonts.enableFontDir = true;
-  fonts.enableGhostscriptFonts = true;
+  fonts = {
+    enableFontConfig = true;
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      corefonts
+      inconsolata
+      ubuntu_font_family
+      source-han-sans-japanese
+      source-han-sans-korean
+      source-han-sans-simplified-chinese
+      source-han-sans-traditional-chinese
+    ];
+  };
+
 
   nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" ];
   nix.gc.automatic = false;
