@@ -151,7 +151,7 @@
     createHome = true;
     home = "/home/shana";
     description = "Mateusz Kowalczyk";
-    extraGroups = [ "wheel" "audio" "video" "vboxusers" ];
+    extraGroups = [ "wheel" "audio" "video" ];
     useDefaultShell = true;
   };
 
@@ -168,7 +168,6 @@
       htop
       (mpv.override { pulseSupport = false; })
       redshift
-      sudo
       wget
       xsel
       zsh
@@ -219,6 +218,8 @@
       source-han-sans-traditional-chinese
     ];
   };
+
+  security.sudo.enable = true;
 
 
   nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" ];
