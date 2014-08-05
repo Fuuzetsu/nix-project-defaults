@@ -13,6 +13,8 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sdb";
 
+  boot.cleanTmpDir = true;
+
   services.xserver.videoDrivers = [ "nvidia" ];
 
   fileSystems."/mnt/mafuyu" = {
