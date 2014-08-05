@@ -5,7 +5,6 @@ let
 ghcHEAD_overrides = ps: recurseIntoAttrs (ps.override {
   extension = se : su : {
   syb = se.callPackage /home/shana/programming/nixpkgs/pkgs/development/libraries/haskell/syb/0.4.2.nix {};
-  vty_5_1_0 = se.callPackage /home/shana/programming/nix-project-defaults/vty/5.1.0.nix {};
   mtl = se.callPackage /home/shana/programming/nix-project-defaults/mtl/2.2.1.nix {};
   testFrameworkSmallcheck =
     se.callPackage /home/shana/programming/nix-project-defaults/test-framework-smallcheck {};
