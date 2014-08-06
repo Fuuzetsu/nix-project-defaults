@@ -47,6 +47,7 @@ in
       base32Bytestring = se.callPackage (htd + "base32-bytestring") {};
       cryptohash_0_10_0 = se.callPackage (htd + "cryptohash/0.10.0.nix") {};
       cryptohash = se.callPackage (htd + "cryptohash") {};
+      haskoin = se.callPackage (htd + "haskoin") {};
       #bittorrent = se.callPackage (htd + "bittorrent") { cryptohash = cryptohash_0_10_0; };
     };
 
