@@ -1,28 +1,21 @@
-{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghc763
+{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghc783
 , withPango ? true }:
 
-let
-  inherit (haskellPackages) cabal alex
-    binary cautiousFile concreteTyperep dataDefault derive Diff
-    dlist dyre filepath fingertree glib gtk hashable hint lens mtl
-    pango parsec pointedlist QuickCheck_2_7_3 random regexBase regexTdfa safe
-    split time transformersBase uniplate unixCompat unorderedContainers
-    utf8String xdgBasedir tfRandom HUnit QuickCheck tasty tastyHunit
-    tastyQuickcheck vty_5_1_0 Cabal;
-in cabal.mkDerivation (self: {
+haskellPackages.cabal.mkDerivation (self: {
   pname = "yi";
-  version = "0.8.1";
+  version = "0.9.1";
   src = /home/shana/programming/yi/yi;
-  buildDepends = [
+  buildDepends = with haskellPackages; [
     # As imported above
     binary Cabal cautiousFile concreteTyperep dataDefault derive Diff
     dlist dyre filepath fingertree hashable hint lens mtl
-    parsec pointedlist QuickCheck_2_7_3 random regexBase regexTdfa safe
+    parsec pointedlist QuickCheck random regexBase regexTdfa safe
     split time transformersBase uniplate unixCompat unorderedContainers
-    utf8String vty_5_1_0 xdgBasedir tfRandom
+    utf8String vty xdgBasedir tfRandom text cabalInstall
   ] ++ (if withPango then [ pango gtk glib ] else [ ]);
-  buildTools = [ alex ];
-  testDepends = [ filepath HUnit QuickCheck tasty tastyHunit tastyQuickcheck ];
+  buildTools = [ haskellPackages.alex ];
+  testDepends = with haskellPackages; [ filepath HUnit QuickCheck tasty
+                                        tastyHunit tastyQuickcheck ];
 
   postInstall = ''
     mv $out/bin/yi $out/bin/.yi-wrapped
