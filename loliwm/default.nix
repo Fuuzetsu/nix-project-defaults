@@ -1,6 +1,4 @@
-{ stdenv, fetchgit, cmake, libxkbcommon, wlc
-, mesa, udev, libdrm, wayland, pixman, libX11
-}:
+{ stdenv, fetchgit, cmake, wlc, wayland }:
 
 stdenv.mkDerivation rec {
   pname = "loliwm";
@@ -9,12 +7,11 @@ stdenv.mkDerivation rec {
 
   src = fetchgit {
     url = "https://github.com/Cloudef/loliwm.git";
-    sha256 = "145pnqcrmbfkzg5yvr7q2rynl40gpy8b49nc1s5p5qng02wyy34q";
+    sha256 = "0z9zdl0l8hc6zc4mdk3pirynavb3g0g0mig67l3vpis8c08479jz";
     rev = version;
     fetchSubmodules = false;
   };
-  buildInputs = [ cmake wlc libxkbcommon mesa udev libdrm wayland
-                  pixman libX11 ];
+  buildInputs = [ cmake wlc wayland ];
 
   meta = with stdenv.lib; {
     homepage = "https://github.com/Cloudef/loliwm";
