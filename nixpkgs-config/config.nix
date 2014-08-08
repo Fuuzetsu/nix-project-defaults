@@ -57,6 +57,7 @@ in
   });
 
   wlc = callPackage (npd + "wlc") {};
+  loliwm = callPackage (npd + "loliwm") {};
 
   cantataNixpkgs = self.cantata;
   cantata = lib.overrideDerivation # Local SVN checkout
