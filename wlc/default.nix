@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
                 ];
 
   meta = with stdenv.lib; {
-    homepage = "https://github.com/Cloudef";
+    homepage = "https://github.com/Cloudef/wlc";
     description = "Wayland compositor library";
     license = licenses.mit;
     maintainers = [ maintainers.fuuzetsu ];
