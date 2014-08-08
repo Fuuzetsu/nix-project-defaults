@@ -12,16 +12,19 @@
 , libxslt ? pkgs.libxslt
 , libxml2 ? pkgs.libxml2
 , python ? pkgs.python
+# , dblatex ? pkgs.dblatex
+, hscolour ? pkgs.haskellPackages.hscolour
 }:
 
 stdenv.mkDerivation rec {
   name = "ghc-${version}";
-  version = "7.9.20140805";
+  version = "7.9.20140807";
 
   src = "/home/shana/programming/ghc";
 
   buildInputs = [ ghc perl gmp ncurses automake autoconf
-                  git happy alex libxslt libxml2 python ];
+                  git happy alex libxslt libxml2 python
+                  hscolour ];
 
   enableParallelBuilding = true;
 
@@ -30,6 +33,7 @@ stdenv.mkDerivation rec {
     libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-gmp-includes="${gmp}/include"
     DYNAMIC_BY_DEFAULT = NO
     BuildFlavour = quick
+    HADDOCK_DOCS = YES
   '';
 
   preConfigure = ''
