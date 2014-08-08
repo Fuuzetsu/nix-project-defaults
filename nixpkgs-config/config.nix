@@ -56,6 +56,8 @@ in
 
   cantataNixpkgs = self.cantata;
   cantata = lib.overrideDerivation # Local SVN checkout
+  wlc = callPackage (npd + "wlc") {};
+
                (cantataNixpkgs.override { withQt4 = false; withQt5 = true; })
                (attrs: rec {
                   name = "cantata-1.3.54-r5152";
