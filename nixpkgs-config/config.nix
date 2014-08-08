@@ -29,6 +29,7 @@ in
   myHaskellPackages_ghc742 = myHaskellPackagesVer haskellPackages_ghc742;
   myHaskellPackages_ghc763 = myHaskellPackagesVer haskellPackages_ghc763;
   myHaskellPackages_ghc783 = myHaskellPackagesVer haskellPackages_ghc783;
+  myHaskellPackages_ghc783_profiling = myHaskellPackagesVer haskellPackages_ghc783_profiling;
 
   myHaskellPackagesVer = ver : recurseIntoAttrs (ver.override {
     extension = se : su : rec {
