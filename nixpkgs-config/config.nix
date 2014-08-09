@@ -2,63 +2,66 @@
 
 with pkgs;
 let
-ghcHEAD_overrides = ps: recurseIntoAttrs (ps.override {
-  extension = se : su : {
-  syb = se.callPackage /home/shana/programming/nixpkgs/pkgs/development/libraries/haskell/syb/0.4.2.nix {};
-  mtl = se.callPackage /home/shana/programming/nix-project-defaults/mtl/2.2.1.nix {};
-  testFrameworkSmallcheck =
-    se.callPackage /home/shana/programming/nix-project-defaults/test-framework-smallcheck {};
-};});
+  # Directories where I'll store extra packages.
+  normalProjectDir = "/home/shana/programming/nix-project-defaults/";
+  haskellProjectDir = normalProjectDir + "haskell-tmp-defaults/";
 
-npd = "/home/shana/programming/nix-project-defaults/";
-htd = npd + "haskell-tmp-defaults/";
+  # Wrap callPackage with the default Haskell directories.
+  haskellPackage = s: p: s.callPackage (haskellProjectDir + p) {};
+  haskellPackage' = s: p: s.callPackage (haskellProjectDir + p);
 
+  # Wrap callPackage with the default non-Haskell directories.
+  normalPackage = p: callPackage (normalProjectDir + p) {};
 in
 { packageOverrides = self: rec {
 
+  # Define own GHC HEAD package pointing to local checkout.
   packages_ghcHEAD = self.haskell.packages {
     ghcPath = /home/shana/programming/ghc;
     ghcBinary = self.haskellPackages.ghcPlain;
     prefFun = self.haskell.ghcHEADPrefs;
   };
 
-  haskellPackages_ghcHEAD_no_profiling = ghcHEAD_overrides (recurseIntoAttrs packages_ghcHEAD.noProfiling);
-  haskellPackages_ghcHEAD_profiling = ghcHEAD_overrides (recurseIntoAttrs packages_ghcHEAD.profiling);
-  haskellPackages_ghcHEAD = ghcHEAD_overrides (recurseIntoAttrs packages_ghcHEAD.highPrio);
+  # Define different GHC HEAD configurations.
+  haskellPackages_ghcHEAD = recurseIntoAttrs packages_ghcHEAD.highPrio;
+  haskellPackages_ghcHEAD_profiling = recurseIntoAttrs packages_ghcHEAD.profiling;
+  haskellPackages_ghcHEAD_no_profiling = recurseIntoAttrs packages_ghcHEAD.noProfiling;
 
-  myHaskellPackages_ghc742 = myHaskellPackagesVer haskellPackages_ghc742;
-  myHaskellPackages_ghc763 = myHaskellPackagesVer haskellPackages_ghc763;
-  myHaskellPackages_ghc783 = myHaskellPackagesVer haskellPackages_ghc783;
-  myHaskellPackages_ghc783_profiling = myHaskellPackagesVer haskellPackages_ghc783_profiling;
-
-  myHaskellPackagesVer = ver : recurseIntoAttrs (ver.override {
+  # Haskell packages I want to use that reside out of nixpkgs or don't
+  # have the settings I want.
+  ownHaskellPackages = ver : recurseIntoAttrs (ver.override {
     extension = se : su : rec {
-      vty_5_1_0 = se.callPackage (npd + "vty/5.1.0.nix") {
-        Cabal = se.Cabal_1_20_0_0;
-      };
-      testFrameworkSmallcheck =
-        se.callPackage (npd + "test-framework-smallcheck") {};
 
-      bencoding = se.callPackage (htd + "bencoding") {};
-      krpc = se.callPackage (htd + "krpc") {};
-      intset = se.callPackage (htd + "intset") {};
-      prettyClass = se.callPackage (htd + "pretty-class") {};
-      splitChannel = se.callPackage (htd + "split-channel") {};
-      bitsExtras = se.callPackage (htd + "bits-extras") {};
-      base32Bytestring = se.callPackage (htd + "base32-bytestring") {};
-      cryptohash_0_10_0 = se.callPackage (htd + "cryptohash/0.10.0.nix") {};
-      cryptohash = se.callPackage (htd + "cryptohash") {};
-      haskoin = se.callPackage (htd + "haskoin") {};
-      haddockLibrary = se.callPackage (htd + "haddock-library") {};
-      #bittorrent = se.callPackage (htd + "bittorrent") { cryptohash = cryptohash_0_10_0; };
+      bencoding         = haskellPackage se "bencoding";
+      krpc              = haskellPackage se "krpc";
+      intset            = haskellPackage se "intset";
+      prettyClass       = haskellPackage se "pretty-class";
+      splitChannel      = haskellPackage se "split-channel";
+      bitsExtras        = haskellPackage se "bits-extras";
+      base32Bytestring  = haskellPackage se "base32-bytestring";
+      cryptohash_0_10_0 = haskellPackage se "cryptohash/0.10.0.nix";
+      cryptohash        = haskellPackage se "cryptohash";
+      haskoin           = haskellPackage se "haskoin";
+      haddockLibrary    = haskellPackage se "haddock-library";
+      #bittorrent = haskellPackage se "bittorrent" {
+      #  cryptohash = cryptohash_0_10_0;
+      #};
     };
-
-
   });
 
-  wlc = callPackage (npd + "wlc") {};
-  loliwm = callPackage (npd + "loliwm") {};
+  # Derive package sets for every version of GHC I'm interested in.
+  myHaskellPackages_ghc742 = ownHaskellPackages haskellPackages_ghc742;
+  myHaskellPackages_ghc763 = ownHaskellPackages haskellPackages_ghc763;
+  myHaskellPackages_ghc783 = ownHaskellPackages haskellPackages_ghc783;
+  myHaskellPackages_ghc783_profiling =
+    ownHaskellPackages haskellPackages_ghc783_profiling;
 
+  # Packages that aren't Haskell packages.
+
+  wlc = normalPackage "wlc";
+  loliwm = normalPackage "loliwm";
+
+  # Override Cantata expression to point at local checkout.
   cantataNixpkgs = self.cantata;
   cantata = lib.overrideDerivation # Local SVN checkout
                (cantataNixpkgs.override { withQt4 = false; withQt5 = true; })
