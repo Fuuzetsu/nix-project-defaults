@@ -124,6 +124,9 @@
   services.xserver.displayManager.slim.autoLogin = false;
   services.xserver.displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r6.tar.gz";
 
+  services.xserver.startGnuPGAgent = true;
+  programs.ssh.startAgent = false;
+
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
     ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
