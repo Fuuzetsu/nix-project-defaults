@@ -1,14 +1,13 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghc783
+{ pkgs ? import <nixpkgs> {}
+, haskellPackages ? pkgs.haskellPackages_ghc783
 }:
-let
-  inherit (haskellPackages) cabal deepseq QuickCheck hspec baseCompat;
-in
-cabal.mkDerivation (self: {
+
+haskellPackages.cabal.mkDerivation (self: {
   pname = "haddock-library";
   version = "1.1.0";
   src = /home/shana/programming/haddock/haddock-library;
-  testDepends = [ QuickCheck hspec baseCompat ];
-  buildDepends = [ deepseq ];
+  testDepends = with haskellPackages; [ QuickCheck hspec baseCompat ];
+  buildDepends = with haskellPackages; [ deepseq ];
   isLibrary = true;
   isExecutable = false;
   enableSplitObjs = false;
