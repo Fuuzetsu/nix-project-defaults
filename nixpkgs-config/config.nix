@@ -61,14 +61,4 @@ in
   wlc = normalPackage "wlc";
   loliwm = normalPackage "loliwm";
 
-  # Override Cantata expression to point at local checkout.
-  cantataNixpkgs = self.cantata;
-  cantata = lib.overrideDerivation # Local SVN checkout
-               (cantataNixpkgs.override { withQt4 = false; withQt5 = true; })
-               (attrs: rec {
-                  name = "cantata-1.3.54-r5152";
-                  src = /home/shana/programming/cantata;
-                  unpackPhase = "";
-                  sourceRoot = "";
-               });
 }; }

@@ -160,50 +160,72 @@
 
   nixpkgs.system = "x86_64-linux";
 
+  nixpkgs.config.packageOverrides = self: rec {
+
+    # Override Cantata expression to point at local checkout.
+    cantataNixpkgs = self.cantata;
+    cantata = pkgs.lib.overrideDerivation # Local SVN checkout
+                 (cantataNixpkgs.override { withQt4 = false; withQt5 = true; })
+                 (attrs: rec {
+                    name = "cantata-1.3.54-r5161";
+                    src = /home/shana/programming/cantata;
+                    unpackPhase = "";
+                    sourceRoot = "";
+                 });
+  };
+
   environment.systemPackages = with pkgs;
-    [ firefox
-      thunderbird
-      emacs
-      elfutils
-      file
-      git
-      gnupg
-      htop
+    [ (mpd.override { pulseaudioSupport = false; })
       (mpv.override { pulseSupport = false; })
-      redshift
-      wget
-      xsel
-      zsh
-      unetbootin
-      gtk3
-      glib
-      #gsettings-desktop-schemas
-      uzbl
-      mumble
-      scrot
-      screen
-      (mpd.override { pulseaudioSupport = false; })
-      cantata
       PPSSPP
-      sshfsFuse
-      python27Packages.livestreamer
-      xlibs.xmodmap
-      xlibs.xsetroot
+      cantata
+      cloc
+      dwb
+      elfutils
+      emacs
+      file
+      gdb
+      gimp
+      git
+      glib
+      glxinfo
+      gnupg
+      gnupg1
+      gtk3
+      htop
       kde4.oxygen_icons
       lsof
-      unetbootin
-      wireshark
-      rxvt_unicode
+      mcomix
+      mupdf
+      nitrogen
+      nix-repl
+      nmap
       pinentry
+      python27Packages.livestreamer
+      rtmpdump
+      rtorrent
+      rxvt_unicode
+      screen
+      scrot
+      sshfsFuse
+      thunderbird
+      unzip
+      uzbl
+      wget
+      xboxdrv
+      xclip
+      xcompmgr
+      xfce.ristretto
+      xlibs.xmodmap
+      xlibs.xsetroot
+      xsel
+      youtubeDL
+      zip
+      zsh
       (haskellPackages.ghcWithPackages (self :
-        [ self.cabalInstall
-          self.xmonad
+        [ self.xmonad
           self.xmonadContrib
           self.xmonadExtras
-          self.cabal2nix
-          self.lens
-          # self.Agda
-          # self.AgdaStdlib_2_4_0
         ]))
     ];
 
@@ -213,17 +235,17 @@
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
       corefonts
+      dejavu_fonts
       inconsolata
-      ubuntu_font_family
       source-han-sans-japanese
       source-han-sans-korean
       source-han-sans-simplified-chinese
       source-han-sans-traditional-chinese
+      ubuntu_font_family
     ];
   };
 
   security.sudo.enable = true;
-
 
   nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" ];
   nix.gc.automatic = false;
