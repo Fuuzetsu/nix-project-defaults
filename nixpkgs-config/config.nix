@@ -43,6 +43,9 @@ in
       cryptohash        = haskellPackage se "cryptohash";
       haskoin           = haskellPackage se "haskoin";
       haddockLibrary    = haskellPackage se "haddock-library";
+      PastePipe         = haskellPackage se "PastePipe";
+      yi                = haskellPackage se "yi/yi.nix";
+      yiContrib         = haskellPackage se "yi/yi-contrib";
       #bittorrent = haskellPackage se "bittorrent" {
       #  cryptohash = cryptohash_0_10_0;
       #};
@@ -60,5 +63,6 @@ in
 
   wlc = normalPackage "wlc";
   loliwm = normalPackage "loliwm";
+  youtubeDL = normalPackage "youtube-dl";
 
 }; }
