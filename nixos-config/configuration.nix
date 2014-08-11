@@ -1,5 +1,11 @@
 { config, pkgs, ... }:
 
+
+let hydra = pkgs.fetchgit { url = https://github.com/NixOS/hydra.git;
+                            rev = "69e3aa043893ca6abede95263d2da288b006e61a";
+                            sha256 = "18e9f615dc58ae21d3ebb5298563017fb71cd6e7d101e48a9dfa63bb3e66d728";
+                          };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -250,7 +256,7 @@
 
   security.sudo.enable = true;
 
-  nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" "http://hydra.cryp.to" ];
+  nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" "http://hydra.cryp.to" "http://localhost:3000" ];
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
 
@@ -265,4 +271,22 @@
 
     KERNEL=="uinput", MODE:="0660", GROUP="uinput"
   '';
+
+  require = [ "${hydra}/hydra-module.nix" ];
+  # Hydra:
+  services.hydra = {
+    enable = true;
+    package = (import "${hydra}/release.nix" {}).build.x86_64-linux;
+    listenHost = "localhost";
+    port = 3000;
+    hydraURL = "http://lenalee:3000";
+    minimumDiskFree = 1;
+    notificationSender = "hydra@lenalee";
+    dbi = "dbi:Pg:dbname=hydra;user=hydra";
+
+  };
+  # Hydra requires postgresql to run
+  services.postgresql.enable = true;
+  services.postgresql.package = pkgs.postgresql;
+
 }
