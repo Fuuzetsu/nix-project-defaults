@@ -289,4 +289,9 @@ in
   services.postgresql.enable = true;
   services.postgresql.package = pkgs.postgresql;
 
+  services.cron.systemCronJobs = [
+      "30 */1 * * * root nix-pull &>/dev/null http://hydra.nixos.org/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
+      "40 */2 * * * root nix-pull &>/dev/null http://hydra.cryp.to/jobset/nixpkgs/haskell-updates/channel/latest/MANIFEST"
+    ];
+
 }
