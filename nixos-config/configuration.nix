@@ -226,6 +226,9 @@
         [ self.xmonad
           self.xmonadContrib
           self.xmonadExtras
+          self.cabal2nix
+          self.HTTP
+          self.tar
         ]))
     ];
 
@@ -247,7 +250,7 @@
 
   security.sudo.enable = true;
 
-  nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" ];
+  nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" "http://hydra.cryp.to" ];
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
 
