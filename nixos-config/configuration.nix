@@ -28,11 +28,6 @@ in
     fsType = "ext4";
   };
 
-  fileSystems."/mnt/sen" = {
-    device = "/dev/disk/by-label/sen";
-    fsType = "ext4";
-  };
-
   fileSystems."/mnt/tomoyo" = {
     device = "/dev/disk/by-label/tomoyo";
     fsType = "ext4";
@@ -45,11 +40,6 @@ in
 
   fileSystems."/export/mafuyu" = {
     device = "/mnt/mafuyu";
-    options = "bind";
-  };
-
-  fileSystems."/export/sen" = {
-    device = "/mnt/sen";
     options = "bind";
   };
 
@@ -88,7 +78,7 @@ in
 
   networking.hostName = "lenalee";
   networking.firewall.enable = false;
-
+  networking.extraHosts = "192.168.1.10 yuuki";
 
   # Select internationalisation properties.
   i18n = {
@@ -110,9 +100,6 @@ in
   services.locate.extraFlags = [ "--netuser=shana"
                                  "--netpaths='/mnt/hitagi /mnt/mikan /mnt/yami'"
                                ];
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -216,7 +203,6 @@ in
       sshfsFuse
       thunderbird
       unzip
-      uzbl
       wget
       xboxdrv
       xclip
@@ -256,7 +242,13 @@ in
 
   security.sudo.enable = true;
 
-  nix.trustedBinaryCaches = [ "http://hydra.nixos.org" "http://cache.nixos.org" "http://hydra.cryp.to" "http://localhost:3000" ];
+  nix.trustedBinaryCaches = [
+    "http://hydra.nixos.org"
+    "http://cache.nixos.org"
+    "http://hydra.cryp.to"
+    "http://yuuki:3000"
+  ];
+
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
 
@@ -272,25 +264,9 @@ in
     KERNEL=="uinput", MODE:="0660", GROUP="uinput"
   '';
 
-  require = [ "${hydra}/hydra-module.nix" ];
-  # Hydra:
-  services.hydra = {
-    enable = true;
-    package = (import "${hydra}/release.nix" {}).build.x86_64-linux;
-    listenHost = "localhost";
-    port = 3000;
-    hydraURL = "http://lenalee:3000";
-    minimumDiskFree = 1;
-    notificationSender = "hydra@lenalee";
-    dbi = "dbi:Pg:dbname=hydra;user=hydra";
-
-  };
-  # Hydra requires postgresql to run
-  services.postgresql.enable = true;
-  services.postgresql.package = pkgs.postgresql;
-
   services.cron.systemCronJobs = [
       "30 */1 * * * root nix-pull &>/dev/null http://hydra.nixos.org/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
+      "20 */1 * * * root nix-pull &>/dev/null http://yuuki:3000/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
       "40 */2 * * * root nix-pull &>/dev/null http://hydra.cryp.to/jobset/nixpkgs/haskell-updates/channel/latest/MANIFEST"
     ];
 
