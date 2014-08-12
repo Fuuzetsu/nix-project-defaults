@@ -45,7 +45,7 @@ in
       haddockLibrary    = haskellPackage se "haddock-library";
       PastePipe         = haskellPackage se "PastePipe";
       yi                = haskellPackage se "yi/yi.nix";
-      yiContrib         = haskellPackage se "yi/yi-contrib";
+      yiContrib         = haskellPackage se "yi/yi-contrib.nix";
       #bittorrent = haskellPackage se "bittorrent" {
       #  cryptohash = cryptohash_0_10_0;
       #};
