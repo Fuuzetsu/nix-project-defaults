@@ -142,6 +142,9 @@ in
 
   services.nfs.server.createMountPoints = true;
 
+  services.ntp.enable = true;
+  time.timeZone = "Europe/London";
+
   # Users
   users.extraUsers.shana = {
     createHome = true;
