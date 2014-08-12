@@ -264,6 +264,16 @@ in
     KERNEL=="uinput", MODE:="0660", GROUP="uinput"
   '';
 
+  nix.distributedBuilds = true;
+  nix.buildMachines = [
+    { hostName = "yuuki";
+      maxJobs = 2;
+      sshKey = "/root/.ssh/id_buildfarm";
+      sshUser = "root";
+      system = "x86_64-linux";
+    }
+  ];
+
   services.cron.systemCronJobs = [
       "30 */1 * * * root nix-pull &>/dev/null http://hydra.nixos.org/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
       "20 */1 * * * root nix-pull &>/dev/null http://yuuki:3000/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
