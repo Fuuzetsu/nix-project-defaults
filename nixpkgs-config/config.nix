@@ -46,6 +46,7 @@ in
       PastePipe         = haskellPackage se "PastePipe";
       yi                = haskellPackage se "yi/yi.nix";
       yiContrib         = haskellPackage se "yi/yi-contrib.nix";
+      hask              = haskellPackage se "hask";
       #bittorrent = haskellPackage se "bittorrent" {
       #  cryptohash = cryptohash_0_10_0;
       #};
