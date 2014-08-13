@@ -2,7 +2,7 @@
 
 haskellPackages.cabal.mkDerivation (self: {
   pname = "h-booru";
-  version = "0.1.0.1";
+  version = "0.2.0.0";
   src = /home/shana/programming/h-booru;
   buildDepends = with haskellPackages; [ httpConduit hxt utf8String vinyl singletons ];
   meta = {
