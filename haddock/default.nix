@@ -1,4 +1,4 @@
-{ haskellPackages ? (import <nixpkgs> {}).haskellPackages_ghcHEAD
+{ haskellPackages ? (import <nixpkgs> {}).myHaskellPackages_ghc783
 , pkgs ? (import <nixpkgs> {})
 , autoconf ? pkgs.autoconf
 , libxslt ? pkgs.libxslt
@@ -10,7 +10,7 @@
 
 haskellPackages.cabal.mkDerivation (self: {
   pname = "haddock";
-  version = "2.15.0";
+  version = "2.14.4";
   src = /home/shana/programming/haddock;
   buildDepends = with haskellPackages;
                    [ Cabal deepseq filepath ghcPaths xhtml haddockLibrary
