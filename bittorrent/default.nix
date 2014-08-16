@@ -13,12 +13,14 @@
 , vector, pkgs
 }:
 
-cabal.mkDerivation (self: {
+cabal.mkDerivation (self: rec {
   pname = "bittorrent";
   version = "0.0.0.3";
   src = /home/shana/programming/bittorrent;
   isLibrary = true;
   isExecutable = true;
+  doCheck = false;
+  configureFlags = if doCheck then [ "-ftesting" ] else [];
   buildDepends = [
     attoparsec base16Bytestring base32Bytestring base64Bytestring
     bencoding bitsExtras cereal cerealConduit conduit conduitExtra
