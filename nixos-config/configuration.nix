@@ -187,6 +187,7 @@ in
       glxinfo
       gnupg
       gnupg1
+      gnutls
       gtk3
       htop
       kde4.oxygen_icons
