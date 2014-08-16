@@ -32,7 +32,6 @@ in
   ownHaskellPackages = ver : recurseIntoAttrs (ver.override {
     extension = se : su : rec {
 
-      bencoding         = haskellPackage se "bencoding";
       krpc              = haskellPackage se "krpc";
       intset            = haskellPackage se "intset";
       prettyClass       = haskellPackage se "pretty-class";
