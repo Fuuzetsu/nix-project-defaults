@@ -8,10 +8,11 @@ let
 
   # Wrap callPackage with the default Haskell directories.
   haskellPackage = s: p: s.callPackage (haskellProjectDir + p) {};
-  haskellPackage' = s: p: s.callPackage (haskellProjectDir + p);
+  haskellPackageS = s: p: s.callPackage (haskellProjectDir + p);
 
   # Wrap callPackage with the default non-Haskell directories.
   normalPackage = p: callPackage (normalProjectDir + p) {};
+  normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
 in
 { packageOverrides = self: rec {
 
