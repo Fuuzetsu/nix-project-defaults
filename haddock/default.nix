@@ -17,6 +17,7 @@ haskellPackages.cabal.mkDerivation (self: {
                      autoconf libxslt libxml2 texLive
                    ];
   testDepends = with haskellPackages; [ Cabal deepseq filepath hspec QuickCheck ];
+  buildTools = with haskellPackages; [ cabalInstall ];
   isLibrary = true;
   isExecutable = true;
   enableSplitObjs = false;
