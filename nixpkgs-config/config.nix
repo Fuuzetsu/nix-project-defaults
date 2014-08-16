@@ -33,7 +33,7 @@ in
   ownHaskellPackages = ver : recurseIntoAttrs (ver.override {
     extension = se : su : rec {
 
-      krpc              = haskellPackage se "krpc";
+      krpc              = normalPackageS se "krpc";
       intset            = haskellPackage se "intset";
       prettyClass       = haskellPackage se "pretty-class";
       splitChannel      = haskellPackage se "split-channel";
