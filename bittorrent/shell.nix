@@ -1,9 +1,7 @@
 let pkgs = import <nixpkgs> {};
     haskellPackages = pkgs.myHaskellPackages.override {
       extension = self: super: {
-        bittorrent = self.callPackage ./. { inherit (pkgs.myHaskellPackages)
-                                            base32Bytestring bitsExtras intset
-                                            krpc prettyClass splitChannel; };
+        bittorrent = self.callPackage ./. (pkgs.myHaskellPackages);
       };
     };
 in pkgs.lib.overrideDerivation haskellPackages.bittorrent (attrs: {

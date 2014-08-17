@@ -10,7 +10,7 @@
 , prettyClass, PSQueue, QuickCheck, quickcheckInstances, random
 , randomShuffle, resourcet, SafeSemaphore, split, splitChannel, stm
 , temporary, text, time, transformersBase, unorderedContainers
-, vector, pkgs
+, vector, pkgs, ...
 }:
 
 cabal.mkDerivation (self: rec {
