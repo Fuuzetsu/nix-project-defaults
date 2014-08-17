@@ -58,6 +58,8 @@ in
   myHaskellPackages_ghc783_profiling =
     ownHaskellPackages haskellPackages_ghc783_profiling;
 
+  myHaskellPackages = myHaskellPackages_ghc783;
+
   # Packages that aren't Haskell packages.
 
   wlc = normalPackage "wlc";
