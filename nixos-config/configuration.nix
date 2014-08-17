@@ -165,7 +165,7 @@ in
     cantata = pkgs.lib.overrideDerivation # Local SVN checkout
                  (cantataNixpkgs.override { withQt4 = false; withQt5 = true; })
                  (attrs: rec {
-                    name = "cantata-1.3.54-r5161";
+                    name = "cantata-1.3.54-r5185";
                     src = /home/shana/programming/cantata;
                     unpackPhase = "";
                     sourceRoot = "";
