@@ -19,6 +19,8 @@ in
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sdb";
 
+  boot.kernelPackages = pkgs.linuxPackages_3_16;
+
   boot.cleanTmpDir = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
