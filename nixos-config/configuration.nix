@@ -6,7 +6,7 @@ let hydra = pkgs.fetchgit { url = https://github.com/NixOS/hydra.git;
                             sha256 = "18e9f615dc58ae21d3ebb5298563017fb71cd6e7d101e48a9dfa63bb3e66d728";
                           };
 in
-{
+rec {
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
@@ -258,6 +258,8 @@ in
     "http://hydra.cryp.to"
     "http://yuuki:3000"
   ];
+
+  nix.binaryCaches = nix.trustedBinaryCaches;
 
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
