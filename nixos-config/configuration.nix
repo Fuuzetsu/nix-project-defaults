@@ -76,9 +76,18 @@ rec {
   swapDevices =
     [ { device = "/dev/disk/by-label/lenalee-swap"; } ];
 
-  networking.hostName = "lenalee";
-  networking.firewall.enable = false;
-  networking.extraHosts = "192.168.1.10 yuuki";
+  networking = {
+    defaultGateway = "192.168.1.254";
+    extraHosts = "192.168.1.10 yuuki";
+    firewall.enable = false;
+    hostName = "lenalee";
+    interfaces = {
+      enp0s25 = { ipAddress = "192.168.1.11"; subnetMask = "255.255.255.0"; };
+    };
+    nameservers = [ "192.168.1.254" ];
+    useDHCP = false;
+  };
+
 
   # Select internationalisation properties.
   i18n = {
