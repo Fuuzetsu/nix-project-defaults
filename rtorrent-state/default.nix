@@ -3,7 +3,7 @@
 
 haskellPackages.cabal.mkDerivation (self: {
   pname = "rtorrent-state";
-  version = "0.1.0.0";
+  version = "0.1.0.1";
   src = /home/shana/programming/rtorrent-state;
   buildDepends = with haskellPackages; [ bencoding utf8String lens ];
   testDepends = with haskellPackages; [ QuickCheck hspec bencoding utf8String temporary ];
