@@ -177,6 +177,7 @@ in
     [ (mpd.override { pulseaudioSupport = false; })
       (mpv.override { pulseSupport = false; })
       PPSSPP
+      astyle
       cantata
       cloc
       dwb
@@ -186,6 +187,7 @@ in
       gdb
       gimp
       git
+      gnome3.glade
       glib
       glxinfo
       gnupg
@@ -208,6 +210,7 @@ in
       screen
       scrot
       sshfsFuse
+      tesseract
       thunderbird
       unzip
       wget
