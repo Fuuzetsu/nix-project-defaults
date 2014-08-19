@@ -259,7 +259,11 @@ rec {
     "http://yuuki:3000"
   ];
 
-  nix.binaryCaches = nix.trustedBinaryCaches;
+  nix.binaryCaches = [
+    "http://hydra.nixos.org"
+    "http://cache.nixos.org"
+    "http://yuuki:3000"
+  ];
 
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
