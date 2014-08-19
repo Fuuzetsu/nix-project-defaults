@@ -23,8 +23,6 @@ in
 
   boot.cleanTmpDir = true;
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   fileSystems."/mnt/mafuyu" = {
     device = "/dev/disk/by-label/mafuyu";
     fsType = "ext4";
@@ -104,20 +102,23 @@ in
                                ];
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
+  services.xserver = {
+    videoDrivers = [ "nvidia" ];
+    enable = true;
+    layout = "us";
 
-  services.xserver.xkbOptions = "compose:caps";
-  services.xserver.xkbVariant = "dvp";
+    xkbOptions = "compose:caps";
+    xkbVariant = "dvp";
 
-  services.xserver.windowManager.xmonad.enable = true;
-  services.xserver.windowManager.xmonad.enableContribAndExtras = true;
-  services.xserver.windowManager.default = "xmonad";
-  services.xserver.desktopManager.default = "none";
+    windowManager.xmonad.enable = true;
+    windowManager.xmonad.enableContribAndExtras = true;
+    windowManager.default = "xmonad";
+    desktopManager.default = "none";
 
-  services.xserver.displayManager.slim.defaultUser = "shana";
-  services.xserver.displayManager.slim.autoLogin = false;
-  services.xserver.displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r6.tar.gz";
+    displayManager.slim.defaultUser = "shana";
+    displayManager.slim.autoLogin = false;
+    displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r6.tar.gz";
+  };
 
   services.xserver.startGnuPGAgent = true;
   programs.ssh.startAgent = false;
