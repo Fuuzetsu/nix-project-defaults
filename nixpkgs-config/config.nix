@@ -48,6 +48,7 @@ in
       yiContrib         = haskellPackage se "yi/yi-contrib.nix";
       hask              = haskellPackage se "hask";
       bittorrent        = normalPackageS se "bittorrent";
+      gtk3hs            = haskellPackage se "gtk3";
     };
   });
 
