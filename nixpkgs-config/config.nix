@@ -49,6 +49,10 @@ in
       hask              = haskellPackage se "hask";
       bittorrent        = normalPackageS se "bittorrent";
       gtk3hs            = haskellPackage se "gtk3";
+      ghcMod_5_0_1      = haskellPackage se "ghc-mod/5.0.1.nix";
+      djinnLib          = haskellPackage se "djinn-lib";
+      djinnGhc          = haskellPackage se "djinn-ghc";
+      monadJournal      = haskellPackage se "monad-journal";
     };
   });
 
