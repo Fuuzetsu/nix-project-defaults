@@ -6,5 +6,6 @@ let pkgs = import <nixpkgs> {};
       };
     };
 in pkgs.lib.overrideDerivation haskellPackages.tsuntsun (attrs: {
-  buildInputs = [ myHaskellPackages.ghcMod_5_0_1 ] ++ attrs.buildInputs;
+#pkgs.emacs haskellPackages.cabalInstall myHaskellPackages.ghcMod_5_0_1
+  buildInputs = [  ] ++ attrs.buildInputs;
 })
