@@ -44,8 +44,8 @@ in
       haskoin           = haskellPackage se "haskoin";
       haddockLibrary    = haskellPackage se "haddock-library";
       PastePipe         = haskellPackage se "PastePipe";
-      yi                = haskellPackage se "yi/yi.nix";
-      yiContrib         = haskellPackage se "yi/yi-contrib.nix";
+      yi                = normalPackageS se "yi";
+      yiContrib         = normalPackageS se "yi-contrib";
       hask              = haskellPackage se "hask";
       bittorrent        = normalPackageS se "bittorrent";
       gtk3hs            = haskellPackage se "gtk3";
@@ -53,6 +53,9 @@ in
       djinnLib          = haskellPackage se "djinn-lib";
       djinnGhc          = haskellPackage se "djinn-ghc";
       monadJournal      = haskellPackage se "monad-journal";
+      yiMonokai         = normalPackageS se "yi-monokai";
+      yiHaskellUtils    = normalPackageS se "yi-haskell-utils";
+      customisedYi      = normalPackageS se "customised-yi";
     };
   });
 
