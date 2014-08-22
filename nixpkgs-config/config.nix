@@ -43,7 +43,9 @@ in
       cryptohash_0_10_0 = haskellPackage se "cryptohash/0.10.0.nix";
       cryptohash        = haskellPackage se "cryptohash";
       haskoin           = haskellPackage se "haskoin";
-      haddockLibrary    = haskellPackage se "haddock-library";
+      haddock           = normalPackageS se "haddock";
+      haddockLibrary    = normalPackageS se "haddock-library";
+      haddockApi        = normalPackageS se "haddock-api";
       PastePipe         = haskellPackage se "PastePipe";
       yi                = normalPackageS se "yi";
       yiContrib         = normalPackageS se "yi-contrib";
@@ -57,6 +59,9 @@ in
       yiMonokai         = normalPackageS se "yi-monokai";
       yiHaskellUtils    = normalPackageC se "yi-haskell-utils" { ghcMod = ghcMod_5_0_1; };
       customisedYi      = normalPackageS se "customised-yi";
+      lens              = haskellPackage se "lens";
+      lensAeson         = haskellPackage se "lens-aeson";
+      tsuntsun          = normalPackageS se "tsuntsun";
     };
   });
 
