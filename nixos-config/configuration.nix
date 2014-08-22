@@ -1,11 +1,5 @@
 { config, pkgs, ... }:
 
-
-let hydra = pkgs.fetchgit { url = https://github.com/NixOS/hydra.git;
-                            rev = "69e3aa043893ca6abede95263d2da288b006e61a";
-                            sha256 = "18e9f615dc58ae21d3ebb5298563017fb71cd6e7d101e48a9dfa63bb3e66d728";
-                          };
-in
 rec {
   imports =
     [ # Include the results of the hardware scan.
@@ -234,12 +228,10 @@ rec {
       zip
       zsh
       (haskellPackages.ghcWithPackages (self :
-        [ self.xmonad
-          self.xmonadContrib
-          self.xmonadExtras
-          self.cabal2nix
-          self.HTTP
+        [ self.HTTP
+          self.regexPosix
           self.tar
+          self.utf8String
         ]))
     ];
 
