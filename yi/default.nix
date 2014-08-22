@@ -6,7 +6,7 @@
 , pointedlist, QuickCheck, random, regexBase, regexTdfa, safe
 , semigroups, split, tagged, tasty, tastyHunit, tastyQuickcheck
 , text, time, transformersBase, unixCompat, unorderedContainers
-, utf8String, vty, xdgBasedir, ...
+, utf8String, vty, xdgBasedir
 }:
 
 cabal.mkDerivation (self: {

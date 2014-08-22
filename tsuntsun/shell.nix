@@ -1,11 +1,8 @@
 let pkgs = import <nixpkgs> {};
-    myHaskellPackages = pkgs.myHaskellPackages;
+    myHaskellPackages = pkgs.myHaskellPackages_ghc783;
     haskellPackages = myHaskellPackages.override {
       extension = self: super: {
-        tsuntsun = self.callPackage ./. myHaskellPackages;
+        tsuntsun = myHaskellPackages.callPackage ./. {};
       };
     };
-in pkgs.lib.overrideDerivation haskellPackages.tsuntsun (attrs: {
-#pkgs.emacs haskellPackages.cabalInstall myHaskellPackages.ghcMod_5_0_1
-  buildInputs = [  ] ++ attrs.buildInputs;
-})
+in haskellPackages.tsuntsun
