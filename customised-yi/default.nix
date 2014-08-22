@@ -1,11 +1,11 @@
 { cabal, yiMonokai, yiHaskellUtils, yi, lens, yiContrib }:
 let
-  extras = [ yiMonokai lens yiContrib ]; #yiHaskellUtils
+  extras = [ yiMonokai lens yiContrib yiHaskellUtils ];
 
 in
 cabal.mkDerivation (self: rec {
   pname = "yi-custom";
-  version = "0.0.0.0";
+  version = "0.0.0.1";
   src = "/home/shana/.config/yi";
   isExecutable = true;
   buildDepends = extras ++ [ yi ];

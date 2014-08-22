@@ -13,6 +13,7 @@ let
   # Wrap callPackage with the default non-Haskell directories.
   normalPackage = p: callPackage (normalProjectDir + p) {};
   normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
+  normalPackageC = s: p: v: s.callPackage (normalProjectDir + p) v;
 in
 { packageOverrides = self: rec {
 
@@ -54,7 +55,7 @@ in
       djinnGhc          = haskellPackage se "djinn-ghc";
       monadJournal      = haskellPackage se "monad-journal";
       yiMonokai         = normalPackageS se "yi-monokai";
-      yiHaskellUtils    = normalPackageS se "yi-haskell-utils";
+      yiHaskellUtils    = normalPackageC se "yi-haskell-utils" { ghcMod = ghcMod_5_0_1; };
       customisedYi      = normalPackageS se "customised-yi";
     };
   });
