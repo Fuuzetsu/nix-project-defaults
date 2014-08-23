@@ -11,6 +11,7 @@ cabal.mkDerivation (self: {
   buildDepends = [ haddockApi ];
   testDepends = [ Cabal filepath ];
   doCheck = true;
+  preCheck = "unset GHC_PACKAGE_PATH";
   meta = {
     homepage = "http://www.haskell.org/haddock/";
     description = "A documentation-generation tool for Haskell libraries";
