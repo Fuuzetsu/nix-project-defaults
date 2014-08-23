@@ -34,6 +34,7 @@ in
   ownHaskellPackages = ver : recurseIntoAttrs (ver.override {
     extension = se : su : rec {
 
+      cabal2nix         = normalPackageS se "cabal2nix";
       krpc              = normalPackageS se "krpc";
       intset            = haskellPackage se "intset";
       prettyClass       = haskellPackage se "pretty-class";
