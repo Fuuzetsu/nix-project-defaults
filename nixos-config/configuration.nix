@@ -114,7 +114,7 @@ rec {
     xkbVariant = "dvp";
 
     windowManager.xmonad.enable = true;
-    windowManager.xmonad.enableContribAndExtras = true;
+    windowManager.xmonad.extraPackages = self: [ self.xmonadContrib ];
     windowManager.default = "xmonad";
     desktopManager.default = "none";
 
@@ -227,12 +227,6 @@ rec {
       youtubeDL
       zip
       zsh
-      (haskellPackages.ghcWithPackages (self :
-        [ self.HTTP
-          self.regexPosix
-          self.tar
-          self.utf8String
-        ]))
     ];
 
   fonts = {
