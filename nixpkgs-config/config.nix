@@ -63,6 +63,7 @@ in
       lens              = haskellPackage se "lens";
       lensAeson         = haskellPackage se "lens-aeson";
       tsuntsun          = normalPackageS se "tsuntsun";
+      wordTrie          = normalPackageS se "word-trie";
     };
   });
 
