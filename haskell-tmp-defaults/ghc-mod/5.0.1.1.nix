@@ -2,14 +2,14 @@
 
 { cabal, Cabal, convertible, deepseq, djinnGhc, doctest, emacs
 , filepath, ghcPaths, ghcSybUtils, haskellSrcExts, hlint, hspec
-, ioChoice, monadControl, monadJournal, mtl, split, syb, text, time
-, transformers, transformersBase
+, ioChoice, makeWrapper, monadControl, monadJournal, mtl, split
+, syb, text, time, transformers, transformersBase
 }:
 
 cabal.mkDerivation (self: {
   pname = "ghc-mod";
-  version = "5.0.1";
-  sha256 = "01awsi5rfzq6433shfvvnr69ifxb7h8v90mlknxv3dl34zmrhv19";
+  version = "5.0.1.1";
+  sha256 = "0qyl1653dj14ap3035kjj7xl8rsmgpwh32bj2lnwrmdm2223m8a3";
   isLibrary = true;
   isExecutable = true;
   buildDepends = [
@@ -22,7 +22,7 @@ cabal.mkDerivation (self: {
     ghcSybUtils haskellSrcExts hlint hspec ioChoice monadControl
     monadJournal mtl split syb text time transformers transformersBase
   ];
-  buildTools = [ emacs ];
+  buildTools = [ emacs makeWrapper ];
   doCheck = false;
   configureFlags = "--datasubdir=${self.pname}-${self.version}";
   postInstall = ''
@@ -32,20 +32,10 @@ cabal.mkDerivation (self: {
     cd ..
     ensureDir "$out/share/emacs"
     mv $pname-$version emacs/site-lisp
-    mv $out/bin/ghc-mod $out/bin/.ghc-mod-wrapped
-    cat - > $out/bin/ghc-mod <<EOF
-    #! ${self.stdenv.shell}
-    eval exec $out/bin/.ghc-mod-wrapped \$( ${self.ghc.GHCGetPackages} ${self.ghc.version} | tr " " "\n" | tail -n +2 | paste -d " " - - | sed 's/.*/-g "&"/' | tr "\n" " ") "\$@"
-    EOF
-
-    mv $out/bin/ghc-modi $out/bin/.ghc-modi-wrapped
-    cat - > $out/bin/ghc-modi <<EOF
-    #! ${self.stdenv.shell}
-    eval exec $out/bin/.ghc-modi-wrapped \$( ${self.ghc.GHCGetPackages} ${self.ghc.version} | tr " " "\n" | tail -n +2 | paste -d " " - - | sed 's/.*/-g "&"/' | tr "\n" " ") "\$@"
-    EOF
-
-    chmod +x $out/bin/ghc-mod
-    chmod +x $out/bin/ghc-modi
+    wrapProgram $out/bin/ghc-mod --add-flags \
+      "\$(${self.ghc.GHCGetPackages} ${self.ghc.version} \"\$(dirname \$0)\" \"-g -package-db -g\")"
+    wrapProgram $out/bin/ghc-modi --add-flags \
+      "\$(${self.ghc.GHCGetPackages} ${self.ghc.version} \"\$(dirname \$0)\" \"-g -package-db -g\")"
   '';
   meta = {
     homepage = "http://www.mew.org/~kazu/proj/ghc-mod/";
