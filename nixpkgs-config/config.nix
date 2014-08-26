@@ -64,6 +64,8 @@ in
       lensAeson         = haskellPackage se "lens-aeson";
       tsuntsun          = normalPackageS se "tsuntsun";
       wordTrie          = normalPackageS se "word-trie";
+      ooPrototypes      = normalPackageS se "oo-prototypes";
+      yiLanguage        = normalPackageS se "yi-language";
     };
   });
 

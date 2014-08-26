@@ -6,7 +6,7 @@
 , pointedlist, QuickCheck, random, regexBase, regexTdfa, safe
 , semigroups, split, tagged, tasty, tastyHunit, tastyQuickcheck
 , text, time, transformersBase, unixCompat, unorderedContainers
-, utf8String, vty, xdgBasedir, wordTrie
+, utf8String, vty, xdgBasedir, wordTrie, ooPrototypes, yiLanguage
 }:
 
 cabal.mkDerivation (self: {
@@ -20,7 +20,8 @@ cabal.mkDerivation (self: {
     dlist dyre filepath fingertree glib gtk hashable hint lens mtl
     pango parsec pointedlist QuickCheck random regexBase regexTdfa safe
     semigroups split tagged text time transformersBase unixCompat
-    unorderedContainers utf8String vty xdgBasedir wordTrie
+    unorderedContainers utf8String vty xdgBasedir wordTrie ooPrototypes
+    yiLanguage
   ];
   testDepends = [
     filepath HUnit lens QuickCheck tasty tastyHunit tastyQuickcheck
