@@ -12,6 +12,7 @@ let
 
   # Wrap callPackage with the default non-Haskell directories.
   normalPackage = p: callPackage (normalProjectDir + p) {};
+  normalPackage32 = p: callPackage_i686 (normalProjectDir + p) {};
   normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
   normalPackageC = s: p: v: s.callPackage (normalProjectDir + p) v;
 in
@@ -84,5 +85,4 @@ in
   wlc = normalPackage "wlc";
   loliwm = normalPackage "loliwm";
   youtubeDL = normalPackage "youtube-dl";
-
 }; }
