@@ -205,6 +205,7 @@ rec {
       nitrogen
       nix-repl
       nmap
+      p7zip
       pinentry
       python27Packages.livestreamer
       rtmpdump
