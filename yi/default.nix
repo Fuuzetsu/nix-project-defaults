@@ -24,7 +24,7 @@ cabal.mkDerivation (self: {
     yiLanguage
   ];
   testDepends = [
-    filepath HUnit lens QuickCheck tasty tastyHunit tastyQuickcheck
+    filepath HUnit lens QuickCheck tasty tastyHunit tastyQuickcheck semigroups
   ];
   buildTools = [ alex ];
   configureFlags = "-fpango";
