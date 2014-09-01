@@ -68,6 +68,7 @@ in
       ooPrototypes      = normalPackageS se "oo-prototypes";
       yiLanguage        = normalPackageS se "yi-language";
       yiCustom          = normalPackageS se "customised-yi";
+      hstorrent         = normalPackageS se "hstorrent";
     };
   });
 
