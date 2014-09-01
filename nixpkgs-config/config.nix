@@ -69,6 +69,8 @@ in
       yiLanguage        = normalPackageS se "yi-language";
       yiCustom          = normalPackageS se "customised-yi";
       hstorrent         = normalPackageS se "hstorrent";
+      haskellTracker    = normalPackageS se "haskell-tracker";
+      saltine           = haskellPackage se "saltine";
     };
   });
 
