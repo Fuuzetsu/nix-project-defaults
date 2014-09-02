@@ -131,9 +131,14 @@ rec {
     nitrogen --restore
   '';
 
-  services.redshift.enable = true;
-  services.redshift.latitude = "51";
-  services.redshift.longitude = "-2";
+  services.redshift = {
+    enable = true;
+    latitude = "51";
+    longitude = "-2";
+  };
+
+  # Don't blind me
+  systemd.services.redshift.restartIfChanged = false;
 
   # NFS
   services.nfs.server.enable = true;
