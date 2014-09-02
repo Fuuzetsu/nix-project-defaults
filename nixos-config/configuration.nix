@@ -76,12 +76,11 @@ rec {
     firewall.enable = false;
     hostName = "lenalee";
     interfaces = {
-      enp0s25 = { ipAddress = "192.168.1.11"; subnetMask = "255.255.255.0"; };
+      enp0s25 = { ipAddress = "192.168.1.11"; prefixLength = 24; };
     };
     nameservers = [ "192.168.1.254" ];
     useDHCP = false;
   };
-
 
   # Select internationalisation properties.
   i18n = {
