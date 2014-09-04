@@ -6,5 +6,5 @@ let pkgs = import <nixpkgs> {};
       };
     };
 in pkgs.lib.overrideDerivation haskellPackages.hstorrent (attrs: {
-  buildInputs = [ myHaskellPackages.cabalInstall ] ++ attrs.buildInputs;
+  buildInputs = [ ] ++ attrs.buildInputs;
 })
