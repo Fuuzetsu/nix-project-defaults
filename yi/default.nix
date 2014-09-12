@@ -7,6 +7,7 @@
 , semigroups, split, tagged, tasty, tastyHunit, tastyQuickcheck
 , text, time, transformersBase, unixCompat, unorderedContainers
 , utf8String, vty, xdgBasedir, wordTrie, ooPrototypes, yiLanguage
+, yiRope
 }:
 
 cabal.mkDerivation (self: {
@@ -21,13 +22,13 @@ cabal.mkDerivation (self: {
     pango parsec pointedlist QuickCheck random regexBase regexTdfa safe
     semigroups split tagged text time transformersBase unixCompat
     unorderedContainers utf8String vty xdgBasedir wordTrie ooPrototypes
-    yiLanguage
+    yiLanguage yiRope
   ];
   testDepends = [
     filepath HUnit lens QuickCheck tasty tastyHunit tastyQuickcheck semigroups
   ];
   buildTools = [ alex ];
-  configureFlags = "-fpango";
+  configureFlags = [ "-fpango" "--enable-executable-profiling" ];
 
   # https://ghc.haskell.org/trac/ghc/ticket/9170
   noHaddock = self.ghc.version == "7.6.3";

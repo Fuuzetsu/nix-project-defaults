@@ -83,6 +83,7 @@ in
     ownHaskellPackages haskellPackages_ghc783_profiling;
 
   myHaskellPackages = myHaskellPackages_ghc783;
+  myHaskellPackages_profiling = myHaskellPackages_ghc783_profiling;
 
   # Packages that aren't Haskell packages.
 
