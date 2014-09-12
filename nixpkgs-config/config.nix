@@ -71,6 +71,7 @@ in
       hstorrent         = normalPackageS se "hstorrent";
       haskellTracker    = normalPackageS se "haskell-tracker";
       saltine           = haskellPackage se "saltine";
+      yiRope            = normalPackageS se "yi-rope";
     };
   });
 
