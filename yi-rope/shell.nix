@@ -2,10 +2,10 @@ let pkgs = import <nixpkgs> {};
     myHaskellPackages = pkgs.myHaskellPackages_profiling;
     haskellPackages = myHaskellPackages.override {
       extension = self: super: {
-        yi = myHaskellPackages.callPackage ./. {};
+        yiRope = myHaskellPackages.callPackage ./. {};
       };
     };
-in pkgs.lib.overrideDerivation haskellPackages.yi (attrs: {
+in pkgs.lib.overrideDerivation haskellPackages.yiRope (attrs: {
   noHaddock = true;
   buildInputs = [ myHaskellPackages.cabalInstall ] ++ attrs.buildInputs;
 })
