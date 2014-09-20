@@ -1,7 +1,6 @@
-{ cabal, yiMonokai, yiHaskellUtils, yi, lens, yiContrib }:
+{ cabal, yiMonokai, yiHaskellUtils, yi, lens, yiContrib, ghcMod }:
 let
-  extras = [ yiMonokai lens yiContrib yiHaskellUtils ];
-
+  extras = [ yiMonokai lens yiContrib yiHaskellUtils ghcMod ];
 in
 cabal.mkDerivation (self: rec {
   pname = "yi-custom";

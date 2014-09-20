@@ -3,7 +3,7 @@ let pkgs = import <nixpkgs> {};
     haskellPackages = myHaskellPackages.override {
       extension = self: super: {
         yiHaskellUtils = self.callPackage ./.
-          (myHaskellPackages // { ghcMod = myHaskellPackages.ghcMod_5_0_1; });
+          (myHaskellPackages // { ghcMod = haskellPackages.ghcMod_5_0_1_1; });
       };
     };
 in pkgs.lib.overrideDerivation haskellPackages.yiHaskellUtils (attrs: {

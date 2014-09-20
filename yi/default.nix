@@ -28,7 +28,7 @@ cabal.mkDerivation (self: {
     filepath HUnit lens QuickCheck tasty tastyHunit tastyQuickcheck semigroups
   ];
   buildTools = [ alex ];
-  configureFlags = [ "-fpango" "--enable-executable-profiling" ];
+  configureFlags = [ "-fpango" ];
 
   # https://ghc.haskell.org/trac/ghc/ticket/9170
   noHaddock = self.ghc.version == "7.6.3";
