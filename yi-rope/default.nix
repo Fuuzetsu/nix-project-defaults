@@ -18,13 +18,6 @@ cabal.mkDerivation (self: {
   pname = "yi-rope";
   version = vrsn;
   src = sr;
-  configureFlags = [
-    "--ghc-option=-fpedantic-bottoms"
-    "--ghc-option=-flate-dmd-anal"
-    "--ghc-option=-fexpose-all-unfoldings"
-    "--ghc-option=-Wall"
-    "--ghc-option=-O2"
-  ];
   buildDepends = [ binary deepseq fingertree text criterion ];
   testDepends = [ hspec QuickCheck quickcheckInstances text ];
   meta = {
