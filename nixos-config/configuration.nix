@@ -112,6 +112,8 @@ rec {
     xkbOptions = "compose:caps";
     xkbVariant = "dvp";
 
+    startGnuPGAgent = true;
+
     windowManager.xmonad.enable = true;
     windowManager.xmonad.extraPackages = self: [ self.xmonadContrib ];
     windowManager.default = "xmonad";
@@ -120,17 +122,16 @@ rec {
     displayManager.slim.defaultUser = "shana";
     displayManager.slim.autoLogin = false;
     displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r6.tar.gz";
+    displayManager.sessionCommands = ''
+        ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
+        ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
+        ${pkgs.xlibs.xrandr} --output HDMI-0 --mode 1920x1080 --right-of DVI-D-0
+        nitrogen --restore
+      '';
+
   };
 
-  services.xserver.startGnuPGAgent = true;
   programs.ssh.startAgent = false;
-
-  services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
-    ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
-    ${pkgs.xlibs.xrandr} --output DVI-I-1 --auto --right-of DVI-D-0
-    nitrogen --restore
-  '';
 
   services.redshift = {
     enable = true;
