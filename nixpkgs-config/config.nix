@@ -42,8 +42,6 @@ in
       splitChannel      = haskellPackage se "split-channel";
       bitsExtras        = haskellPackage se "bits-extras";
       base32Bytestring  = haskellPackage se "base32-bytestring";
-      cryptohash_0_10_0 = haskellPackage se "cryptohash/0.10.0.nix";
-      cryptohash        = haskellPackage se "cryptohash";
       haskoin           = haskellPackage se "haskoin";
       haddock           = normalPackageS se "haddock";
       haddockLibrary    = normalPackageS se "haddock-library";
@@ -54,13 +52,10 @@ in
       hask              = haskellPackage se "hask";
       bittorrent        = normalPackageS se "bittorrent";
       gtk3hs            = haskellPackage se "gtk3";
-      djinnLib          = haskellPackage se "djinn-lib";
-      djinnGhc          = haskellPackage se "djinn-ghc";
       monadJournal      = haskellPackage se "monad-journal";
       yiMonokai         = normalPackageS se "yi-monokai";
       yiHaskellUtils    = normalPackageC se "yi-haskell-utils" { ghcMod = su.ghcMod_5_0_1_1; };
       customisedYi      = normalPackageS se "customised-yi";
-      lens              = haskellPackage se "lens";
       lensAeson         = haskellPackage se "lens-aeson";
       tsuntsun          = normalPackageS se "tsuntsun";
       wordTrie          = normalPackageS se "word-trie";
@@ -69,7 +64,6 @@ in
       yiCustom          = normalPackageS se "customised-yi";
       hstorrent         = normalPackageS se "hstorrent";
       haskellTracker    = normalPackageS se "haskell-tracker";
-      saltine           = haskellPackage se "saltine";
       yiRope            = normalPackageS se "yi-rope";
     };
   });
