@@ -257,7 +257,6 @@ rec {
   nix.trustedBinaryCaches = [
     "http://hydra.nixos.org"
     "http://cache.nixos.org"
-    "http://hydra.cryp.to"
     "http://yuuki:3000"
   ];
 
