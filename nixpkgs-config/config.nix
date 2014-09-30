@@ -16,7 +16,9 @@ let
   normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
   normalPackageC = s: p: v: s.callPackage (normalProjectDir + p) v;
 in
-{ packageOverrides = self: rec {
+{ allowUnfree = true;
+  ffmpeg.x11grab = true;
+  packageOverrides = self: rec {
 
   # Define own GHC HEAD package pointing to local checkout.
   packages_ghcHEAD = self.haskell.packages {
@@ -54,7 +56,7 @@ in
       gtk3hs            = haskellPackage se "gtk3";
       monadJournal      = haskellPackage se "monad-journal";
       yiMonokai         = normalPackageS se "yi-monokai";
-      yiHaskellUtils    = normalPackageC se "yi-haskell-utils" { ghcMod = su.ghcMod_5_0_1_1; };
+      yiHaskellUtils    = normalPackageC se "yi-haskell-utils" { ghcMod = su.ghcMod_5_0_1_2; };
       customisedYi      = normalPackageS se "customised-yi";
       lensAeson         = haskellPackage se "lens-aeson";
       tsuntsun          = normalPackageS se "tsuntsun";
@@ -65,6 +67,9 @@ in
       hstorrent         = normalPackageS se "hstorrent";
       haskellTracker    = normalPackageS se "haskell-tracker";
       yiRope            = normalPackageS se "yi-rope";
+      oszLoader         = normalPackageS se "osz-loader";
+      hnix              = se.callPackage "/home/shana/programming/hnix" {};
+      yiNixLexer        = normalPackageS se "yi-nix-lexer";
     };
   });
 
