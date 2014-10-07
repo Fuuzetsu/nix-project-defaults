@@ -54,7 +54,6 @@ in
       hask              = haskellPackage se "hask";
       bittorrent        = normalPackageS se "bittorrent";
       gtk3hs            = haskellPackage se "gtk3";
-      monadJournal      = haskellPackage se "monad-journal";
       yiMonokai         = normalPackageS se "yi-monokai";
       yiHaskellUtils    = normalPackageC se "yi-haskell-utils" { ghcMod = su.ghcMod_5_0_1_2; };
       customisedYi      = normalPackageS se "customised-yi";
