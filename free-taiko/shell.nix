@@ -1,4 +1,5 @@
 let pkgs = import <nixpkgs> {};
+    nixpkgsH = (import /home/shana/programming/nixpkgs {}).haskellPackages ;
     myHaskellPackages = pkgs.myHaskellPackages;
     haskellPackages = myHaskellPackages.override {
       extension = self: super: {

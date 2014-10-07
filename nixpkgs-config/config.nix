@@ -15,6 +15,10 @@ let
   normalPackage32 = p: callPackage_i686 (normalProjectDir + p) {};
   normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
   normalPackageC = s: p: v: s.callPackage (normalProjectDir + p) v;
+
+  nixpkgsHask = "/home/shana/programming/nixpkgs/pkgs/development/libraries/haskell/";
+  nixpkgHaskell = s: p: s.callPackage (nixpkgsHask + p) {};
+
 in
 { allowUnfree = true;
   ffmpeg.x11grab = true;
@@ -69,6 +73,12 @@ in
       oszLoader         = normalPackageS se "osz-loader";
       hnix              = se.callPackage "/home/shana/programming/hnix" {};
       yiNixLexer        = normalPackageS se "yi-nix-lexer";
+      bindingsPortaudio = haskellPackage se "bindings-portaudio";
+      WAVE              = nixpkgHaskell se "WAVE";
+      cleanUnions       = nixpkgHaskell se "clean-unions";
+      objective         = nixpkgHaskell se "objective";
+      call              = haskellPackage se "call";
+
     };
   });
 
