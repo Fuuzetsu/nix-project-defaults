@@ -73,6 +73,7 @@ in
       oszLoader         = normalPackageS se "osz-loader";
       hnix              = se.callPackage "/home/shana/programming/hnix" {};
       yiNixLexer        = normalPackageS se "yi-nix-lexer";
+      dynamicState      = normalPackageS se "dynamic-state";
       bindingsPortaudio = haskellPackage se "bindings-portaudio";
       WAVE              = nixpkgHaskell se "WAVE";
       cleanUnions       = nixpkgHaskell se "clean-unions";
