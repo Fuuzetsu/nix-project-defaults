@@ -183,7 +183,7 @@ rec {
   };
 
   environment.systemPackages = with pkgs;
-    [ (mpd.override { pulseaudioSupport = false; })
+    [ (callPackage /home/shana/programming/nixpkgs/pkgs/servers/mpd { pulseaudioSupport = false; })
       (mpv.override { pulseSupport = false; })
       PPSSPP
       astyle
