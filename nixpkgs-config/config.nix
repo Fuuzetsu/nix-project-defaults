@@ -11,6 +11,8 @@ let
   # Wrap callPackage with the default Haskell directories.
   haskellPackage = s: p: s.callPackage (haskellProjectDir + p) {};
   haskellPackageS = s: p: s.callPackage (haskellProjectDir + p);
+  normalPackage = p: callPackage (normalProjectDir + p) {};
+  normalPackage32 = p: callPackage_i686 (normalProjectDir + p) {};
 
   # Wrap callPackage with the default non-Haskell directories.
   normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
