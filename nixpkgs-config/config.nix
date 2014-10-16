@@ -2,6 +2,8 @@
 
 with pkgs;
 let
+
+  nixpkgsGit = import /home/shana/programming/nixpkgs {};
   # Directories where I'll store extra packages.
   normalProjectDir = "/home/shana/programming/nix-project-defaults/";
   haskellProjectDir = normalProjectDir + "haskell-tmp-defaults/";
@@ -11,17 +13,17 @@ let
   haskellPackageS = s: p: s.callPackage (haskellProjectDir + p);
 
   # Wrap callPackage with the default non-Haskell directories.
-  normalPackage = p: callPackage (normalProjectDir + p) {};
-  normalPackage32 = p: callPackage_i686 (normalProjectDir + p) {};
   normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
   normalPackageC = s: p: v: s.callPackage (normalProjectDir + p) v;
 
   nixpkgsHask = "/home/shana/programming/nixpkgs/pkgs/development/libraries/haskell/";
   nixpkgHaskell = s: p: s.callPackage (nixpkgsHask + p) {};
 
+  buildLocally = pk: p: pk.lib.overrideDerivation p (attrs: { preferLocalBuild = true; });
+  buildAllLocally = pk: pk.lib.attrsets.mapAttrs (n: v: buildLocally pk v);
+
 in
-{ allowUnfree = true;
-  ffmpeg.x11grab = true;
+{ ffmpeg.x11grab = true;
   packageOverrides = self: rec {
 
   # Define own GHC HEAD package pointing to local checkout.
@@ -59,7 +61,7 @@ in
       bittorrent        = normalPackageS se "bittorrent";
       gtk3hs            = haskellPackage se "gtk3";
       yiMonokai         = normalPackageS se "yi-monokai";
-      yiHaskellUtils    = normalPackageC se "yi-haskell-utils" { ghcMod = su.ghcMod_5_0_1_2; };
+      yiHaskellUtils    = normalPackageC se "yi-haskell-utils";
       customisedYi      = normalPackageS se "customised-yi";
       lensAeson         = haskellPackage se "lens-aeson";
       tsuntsun          = normalPackageS se "tsuntsun";
@@ -83,6 +85,19 @@ in
     };
   });
 
+  # This is similar to ownHaskellPackages except that it uses my local
+  # nixpkgs checkout as a base which means that I don't have to
+  # duplicate some expressions and wait for the channel to catch up.
+  ownHaskellPackagesGit = ver : nixpkgsGit.recurseIntoAttrs (ver.override {
+    extension = se : su : rec {
+      yiHaskellUtils = normalPackageS se "yi-haskell-utils";
+      yiMonokai      = normalPackageS se "yi-monokai";
+      yiCustom       = su.yiCustom.override { extraPackages = with su; [ yiContrib ]; };
+
+    };
+  });
+
+
   # Derive package sets for every version of GHC I'm interested in.
   myHaskellPackages_ghc742 = ownHaskellPackages haskellPackages_ghc742;
   myHaskellPackages_ghc763 = ownHaskellPackages haskellPackages_ghc763;
@@ -92,6 +107,10 @@ in
 
   myHaskellPackages = myHaskellPackages_ghc783;
   myHaskellPackages_profiling = myHaskellPackages_ghc783_profiling;
+
+  myHaskellPackages_ghc783_nixpkgs =
+    buildAllLocally nixpkgsGit (ownHaskellPackagesGit nixpkgsGit.haskellPackages_ghc783);
+  myHaskellPackages_nixpkgs = myHaskellPackages_ghc783_nixpkgs;
 
   # Packages that aren't Haskell packages.
 
