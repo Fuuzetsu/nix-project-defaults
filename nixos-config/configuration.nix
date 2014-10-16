@@ -171,15 +171,19 @@ rec {
   nixpkgs.config.packageOverrides = self: rec {
 
     # Override Cantata expression to point at local checkout.
-    cantataNixpkgs = self.cantata;
     cantata = pkgs.lib.overrideDerivation # Local SVN checkout
-                 (cantataNixpkgs.override { withQt4 = false; withQt5 = true; })
+                 (self.cantata.override { withQt4 = false; withQt5 = true; })
                  (attrs: rec {
                     name = "cantata-1.3.54-r5574";
                     src = /home/shana/programming/cantata;
                     unpackPhase = "";
                     sourceRoot = "";
                  });
+
+    emacsEnv = pkgs.buildEnv {
+      name = "emacs-env";
+      paths = [ pkgs.haskellPackages.Agda pkgs.emacs ];
+    };
   };
 
   environment.systemPackages = with pkgs;
@@ -191,7 +195,7 @@ rec {
       cloc
       dwb
       elfutils
-      emacs
+      emacsEnv
       file
       gdb
       gimp
