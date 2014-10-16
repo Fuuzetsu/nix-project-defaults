@@ -19,7 +19,7 @@ let
   nixpkgsHask = "/home/shana/programming/nixpkgs/pkgs/development/libraries/haskell/";
   nixpkgHaskell = s: p: s.callPackage (nixpkgsHask + p) {};
 
-  buildLocally = pk: p: pk.lib.overrideDerivation p (attrs: { preferLocalBuild = true; });
+  buildLocally = pk: p: pk.lib.overrideDerivation p (attrs: { buildInputs = []; preferLocalBuild = true; });
   buildAllLocally = pk: pk.lib.attrsets.mapAttrs (n: v: buildLocally pk v);
 
 in
@@ -92,7 +92,9 @@ in
     extension = se : su : rec {
       yiHaskellUtils = normalPackageS se "yi-haskell-utils";
       yiMonokai      = normalPackageS se "yi-monokai";
-      yiCustom       = su.yiCustom.override { extraPackages = with su; [ yiContrib ]; };
+      yiCustom       = su.yiCustom.override {
+        extraPackages = p: [ p.yiContrib p.yiMonokai p.yiHaskellUtils p.lens ];
+      };
 
     };
   });
@@ -108,8 +110,7 @@ in
   myHaskellPackages = myHaskellPackages_ghc783;
   myHaskellPackages_profiling = myHaskellPackages_ghc783_profiling;
 
-  myHaskellPackages_ghc783_nixpkgs =
-    buildAllLocally nixpkgsGit (ownHaskellPackagesGit nixpkgsGit.haskellPackages_ghc783);
+  myHaskellPackages_ghc783_nixpkgs = ownHaskellPackagesGit nixpkgsGit.haskellPackages_ghc783;
   myHaskellPackages_nixpkgs = myHaskellPackages_ghc783_nixpkgs;
 
   # Packages that aren't Haskell packages.
