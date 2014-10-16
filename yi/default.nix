@@ -7,7 +7,7 @@
 , semigroups, split, tagged, tasty, tastyHunit, tastyQuickcheck
 , text, time, transformersBase, unixCompat, unorderedContainers
 , utf8String, vty, xdgBasedir, wordTrie, ooPrototypes, yiLanguage
-, yiRope
+, yiRope, dynamicState
 }:
 
 cabal.mkDerivation (self: {
@@ -22,7 +22,7 @@ cabal.mkDerivation (self: {
     pango parsec pointedlist QuickCheck random regexBase regexTdfa safe
     semigroups split tagged text time transformersBase unixCompat
     unorderedContainers utf8String vty xdgBasedir wordTrie ooPrototypes
-    yiLanguage yiRope
+    yiLanguage yiRope dynamicState
   ];
   testDepends = [
     filepath HUnit lens QuickCheck tasty tastyHunit tastyQuickcheck semigroups
@@ -50,7 +50,7 @@ cabal.mkDerivation (self: {
   meta = {
     homepage = "http://haskell.org/haskellwiki/Yi";
     description = "The Haskell-Scriptable Editor";
-    license = self.lib.licenses.gpl2;
+    license = self.stdenv.lib.licenses.gpl2;
     platforms = self.ghc.meta.platforms;
   };
 })

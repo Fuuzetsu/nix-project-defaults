@@ -4,7 +4,7 @@
 
 cabal.mkDerivation (self: {
   pname = "dynamic-state";
-  version = "0.1.0.3";
+  version = "0.1.1.0";
   src = /home/shana/programming/dynamic-state;
   buildDepends = [
     binary concreteTyperep hashable unorderedContainers
