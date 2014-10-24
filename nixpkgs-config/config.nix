@@ -16,7 +16,9 @@ let
 
   # Wrap callPackage with the default non-Haskell directories.
   normalPackageS = s: p: s.callPackage (normalProjectDir + p) {};
-  normalPackageC = s: p: v: s.callPackage (normalProjectDir + p) v;
+
+  nixpkgsTop = "/home/shana/programming/nixpkgs/pkgs/";
+  nixpkgsNorm = p: pkgs.callPackage (nixpkgsTop + p);
 
   nixpkgsHask = "/home/shana/programming/nixpkgs/pkgs/development/libraries/haskell/";
   nixpkgHaskell = s: p: s.callPackage (nixpkgsHask + p) {};
@@ -56,21 +58,19 @@ in
       haddock           = normalPackageS se "haddock";
       haddockLibrary    = normalPackageS se "haddock-library";
       haddockApi        = normalPackageS se "haddock-api";
-      PastePipe         = haskellPackage se "PastePipe";
       yi                = normalPackageS se "yi";
       yiContrib         = normalPackageS se "yi-contrib";
       hask              = haskellPackage se "hask";
       bittorrent        = normalPackageS se "bittorrent";
       gtk3hs            = haskellPackage se "gtk3";
       yiMonokai         = normalPackageS se "yi-monokai";
-      yiHaskellUtils    = normalPackageC se "yi-haskell-utils";
+      yiHaskellUtils    = normalPackageS se "yi-haskell-utils";
       customisedYi      = normalPackageS se "customised-yi";
       lensAeson         = haskellPackage se "lens-aeson";
       tsuntsun          = normalPackageS se "tsuntsun";
       wordTrie          = normalPackageS se "word-trie";
       ooPrototypes      = normalPackageS se "oo-prototypes";
       yiLanguage        = normalPackageS se "yi-language";
-      yiCustom          = normalPackageS se "customised-yi";
       hstorrent         = normalPackageS se "hstorrent";
       haskellTracker    = normalPackageS se "haskell-tracker";
       yiRope            = normalPackageS se "yi-rope";
@@ -79,12 +79,13 @@ in
       yiNixLexer        = normalPackageS se "yi-nix-lexer";
       dynamicState      = normalPackageS se "dynamic-state";
       bindingsPortaudio = haskellPackage se "bindings-portaudio";
-      WAVE              = nixpkgHaskell se "WAVE";
-      cleanUnions       = nixpkgHaskell se "clean-unions";
-      objective         = nixpkgHaskell se "objective";
       call              = haskellPackage se "call";
-
+      yiFuzzyOpen       = nixpkgHaskell se "yi-fuzzy-open";
+      yiCustom          = se.callPackage (nixpkgsTop + "applications/editors/yi/yi-custom.nix") {
+        extraPackages = p: [ p.yiFuzzyOpen p.yiMonokai p.yiHaskellUtils p.lens ];
+      };
     };
+
   });
 
   # This is similar to ownHaskellPackages except that it uses my local
@@ -93,9 +94,8 @@ in
   ownHaskellPackagesGit = ver : nixpkgsGit.recurseIntoAttrs (ver.override {
     extension = se : su : rec {
       yiHaskellUtils = normalPackageS se "yi-haskell-utils";
-      yiMonokai      = normalPackageS se "yi-monokai";
       yiCustom       = su.yiCustom.override {
-        extraPackages = p: [ p.yiContrib p.yiMonokai p.yiHaskellUtils p.lens ];
+        extraPackages = p: [ p.yiFuzzyOpen p.yiMonokai p.yiHaskellUtils p.lens ];
       };
 
     };
@@ -120,4 +120,16 @@ in
   wlc = normalPackage "wlc";
   loliwm = normalPackage "loliwm";
   youtubeDL = normalPackage "youtube-dl";
-}; }
+  # sxiv = pkgs.misc.debugVersion (pkgs.lib.overrideDerivation (nixpkgsNorm "applications/graphics/sxiv" {})
+  #   (attrs: { name = "sxiv-git";
+  #             patches = [];
+  #             dontStrip = true;
+  #             buildInputs = attrs.buildInputs ++ [ pkgs.libexif ];
+  #             src = pkgs.fetchgit {
+  #               url = "https://github.com/muennich/sxiv.git";
+  #               rev = "c33f2ad355a291cb1a919074ceaa25f52bc85b76";
+  #               sha256 = "a18898912e9bc4fe83375d9bf2fd64872b4b7995bcb3a0f6fe5557e33e2b8f03";
+  #             };
+  #          }));
+  };
+}
