@@ -2,6 +2,7 @@
 
 { cabal, binary, deepseq, fingertree, hspec, QuickCheck
 , quickcheckInstances, text, criterion, dataDefault
+, textIcu, charsetdetectAe
 }:
 
 
@@ -18,7 +19,10 @@ cabal.mkDerivation (self: {
   pname = "yi-rope";
   version = vrsn;
   src = sr;
-  buildDepends = [ binary deepseq fingertree text criterion dataDefault ];
+  buildDepends = [
+    binary deepseq fingertree text criterion dataDefault textIcu
+    charsetdetectAe
+  ];
   testDepends = [ hspec QuickCheck quickcheckInstances text ];
   meta = {
     description = "A rope data structure used by Yi";
