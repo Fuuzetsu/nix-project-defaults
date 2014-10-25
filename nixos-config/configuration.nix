@@ -174,7 +174,7 @@ rec {
     cantata = pkgs.lib.overrideDerivation # Local SVN checkout
                  (self.cantata.override { withQt4 = false; withQt5 = true; })
                  (attrs: rec {
-                    name = "cantata-1.3.54-r5583";
+                    name = "cantata-1.3.54-r5585";
                     src = /home/shana/programming/cantata;
                     unpackPhase = "";
                     sourceRoot = "";
