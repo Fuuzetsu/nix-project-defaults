@@ -28,6 +28,7 @@ let
 
 in
 { ffmpeg.x11grab = true;
+  allowUnfree = true;
   packageOverrides = self: rec {
 
   # Define own GHC HEAD package pointing to local checkout.
@@ -59,18 +60,16 @@ in
       haddockLibrary    = normalPackageS se "haddock-library";
       haddockApi        = normalPackageS se "haddock-api";
       yi                = normalPackageS se "yi";
-      yiContrib         = normalPackageS se "yi-contrib";
       hask              = haskellPackage se "hask";
       bittorrent        = normalPackageS se "bittorrent";
       gtk3hs            = haskellPackage se "gtk3";
       yiMonokai         = normalPackageS se "yi-monokai";
       yiHaskellUtils    = normalPackageS se "yi-haskell-utils";
-      customisedYi      = normalPackageS se "customised-yi";
       lensAeson         = haskellPackage se "lens-aeson";
       tsuntsun          = normalPackageS se "tsuntsun";
       wordTrie          = normalPackageS se "word-trie";
       ooPrototypes      = normalPackageS se "oo-prototypes";
-      yiLanguage        = normalPackageS se "yi-language";
+      #yiLanguage        = normalPackageS se "yi-language";
       hstorrent         = normalPackageS se "hstorrent";
       haskellTracker    = normalPackageS se "haskell-tracker";
       yiRope            = normalPackageS se "yi-rope";
@@ -80,9 +79,10 @@ in
       dynamicState      = normalPackageS se "dynamic-state";
       bindingsPortaudio = haskellPackage se "bindings-portaudio";
       call              = haskellPackage se "call";
-      yiFuzzyOpen       = nixpkgHaskell se "yi-fuzzy-open";
+      yiFuzzyOpen       = normalPackageS se "yi-fuzzy-open";
+      yiAgda            = normalPackageS se "yi-agda";
       yiCustom          = se.callPackage (nixpkgsTop + "applications/editors/yi/yi-custom.nix") {
-        extraPackages = p: [ p.yiFuzzyOpen p.yiMonokai p.yiHaskellUtils p.lens ];
+        extraPackages = p: [ p.yiFuzzyOpen p.yiMonokai p.yiHaskellUtils p.lens p.yiAgda ];
       };
     };
 
@@ -94,8 +94,9 @@ in
   ownHaskellPackagesGit = ver : nixpkgsGit.recurseIntoAttrs (ver.override {
     extension = se : su : rec {
       yiHaskellUtils = normalPackageS se "yi-haskell-utils";
+      yiAgda         = normalPackageS se "yi-agda";
       yiCustom       = su.yiCustom.override {
-        extraPackages = p: [ p.yiFuzzyOpen p.yiMonokai p.yiHaskellUtils p.lens ];
+        extraPackages = p: [ p.yiFuzzyOpen p.yiMonokai p.yiHaskellUtils p.lens p.yiAgda ];
       };
 
     };
