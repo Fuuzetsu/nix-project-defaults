@@ -5,7 +5,7 @@
 
 cabal.mkDerivation (self: {
   pname = "haddock-api";
-  version = "2.15.0";
+  version = "2.15.1";
   src = /home/shana/programming/haddock/haddock-api;
   buildDepends = [
     Cabal deepseq filepath ghcPaths haddockLibrary xhtml

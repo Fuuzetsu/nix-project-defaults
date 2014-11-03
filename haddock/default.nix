@@ -4,13 +4,12 @@
 
 cabal.mkDerivation (self: {
   pname = "haddock";
-  version = "2.15.0";
+  version = "2.15.1";
   src = /home/shana/programming/haddock;
-  isLibrary = true;
+  isLibrary = false;
   isExecutable = true;
   buildDepends = [ haddockApi ];
   testDepends = [ Cabal filepath ];
-  doCheck = true;
   preCheck = "unset GHC_PACKAGE_PATH";
   meta = {
     homepage = "http://www.haskell.org/haddock/";
