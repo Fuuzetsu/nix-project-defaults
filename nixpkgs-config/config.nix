@@ -121,16 +121,5 @@ in
   wlc = normalPackage "wlc";
   loliwm = normalPackage "loliwm";
   youtubeDL = normalPackage "youtube-dl";
-  # sxiv = pkgs.misc.debugVersion (pkgs.lib.overrideDerivation (nixpkgsNorm "applications/graphics/sxiv" {})
-  #   (attrs: { name = "sxiv-git";
-  #             patches = [];
-  #             dontStrip = true;
-  #             buildInputs = attrs.buildInputs ++ [ pkgs.libexif ];
-  #             src = pkgs.fetchgit {
-  #               url = "https://github.com/muennich/sxiv.git";
-  #               rev = "c33f2ad355a291cb1a919074ceaa25f52bc85b76";
-  #               sha256 = "a18898912e9bc4fe83375d9bf2fd64872b4b7995bcb3a0f6fe5557e33e2b8f03";
-  #             };
-  #          }));
   };
 }
