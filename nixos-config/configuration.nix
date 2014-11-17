@@ -5,7 +5,9 @@ rec {
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
       /home/shana/programming/nix-project-defaults/nixos-config/configuration.nix
+      <nixos/modules/programs/virtualbox.nix>
     ];
+
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -72,7 +74,16 @@ rec {
 
   networking = {
     defaultGateway = "192.168.1.254";
-    extraHosts = "192.168.1.10 yuuki";
+    extraHosts = ''
+      192.168.1.10 yuuki
+      192.168.56.102 dev.zalora.sg www.dev.zalora.sg bob.dev.zalora.sg static.dev.zalora.sg
+      192.168.56.102 dev.zalora.com.my www.dev.zalora.com.my bob.dev.zalora.com.my static.dev.zalora.com.my
+      192.168.56.102 dev.zalora.com.ph www.dev.zalora.com.ph bob.dev.zalora.com.ph static.dev.zalora.com.ph
+      192.168.56.102 dev.zalora.vn www.dev.zalora.vn bob.dev.zalora.vn static.dev.zalora.vn
+      192.168.56.102 dev.zalora.co.id www.dev.zalora.co.id bob.dev.zalora.co.id static.dev.zalora.co.id
+      192.168.56.102 dev.zalora.co.th www.dev.zalora.co.th bob.dev.zalora.co.th static.dev.zalora.co.th
+      192.168.56.102 dev.zalora.com.hk www.dev.zalora.com.hk bob.dev.zalora.com.hk static.dev.zalora.com.hk
+    '';
     firewall.enable = false;
     hostName = "lenalee";
     interfaces = {
@@ -165,6 +176,9 @@ rec {
     extraGroups = [ "wheel" "audio" "video" ];
     useDefaultShell = true;
   };
+
+  users.extraGroups.vboxusers.members = [ "shana" ];
+
 
   nixpkgs.system = "x86_64-linux";
 
@@ -273,6 +287,10 @@ rec {
 
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
+
+  nix.extraOptions = ''
+    allow-unsafe-native-code-during-evaluation = true
+  '';
 
   hardware.pulseaudio.enable = false;
   boot.blacklistedKernelModules = [ "snd_pcsp" ];
