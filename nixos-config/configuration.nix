@@ -224,6 +224,7 @@ rec {
       screen
       scrot
       sshfsFuse
+      (callPackage /home/shana/programming/nixpkgs/pkgs/applications/graphics/sxiv {})
       tesseract
       thunderbird
       unzip
