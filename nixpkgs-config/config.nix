@@ -30,7 +30,7 @@ in
 { ffmpeg.x11grab = true;
   allowUnfree = true;
   packageOverrides = self: rec {
-
+  /*
   # Define own GHC HEAD package pointing to local checkout.
   packages_ghcHEAD = self.haskell.packages {
     ghcPath = /home/shana/programming/ghc;
@@ -42,7 +42,7 @@ in
   haskellPackages_ghcHEAD = recurseIntoAttrs packages_ghcHEAD.highPrio;
   haskellPackages_ghcHEAD_profiling = recurseIntoAttrs packages_ghcHEAD.profiling;
   haskellPackages_ghcHEAD_no_profiling = recurseIntoAttrs packages_ghcHEAD.noProfiling;
-
+  */
   # Haskell packages I want to use that reside out of nixpkgs or don't
   # have the settings I want.
   ownHaskellPackages = ver : recurseIntoAttrs (ver.override {
