@@ -7,7 +7,7 @@
 
 cabal.mkDerivation (self: {
   pname = "yi-language";
-  version = "0.1.0.8";
+  version = "0.1.1.0";
   src = /home/shana/programming/yi-language;
   buildDepends = [
     binary dataDefault derive hashable lens ooPrototypes pointedlist

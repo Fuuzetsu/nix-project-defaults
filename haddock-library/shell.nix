@@ -1,8 +1,3 @@
 let pkgs = import <nixpkgs> {};
-    myHaskellPackages = pkgs.myHaskellPackages;
-    haskellPackages = myHaskellPackages.override {
-      extension = self: super: {
-        haddockLibrary = myHaskellPackages.callPackage ./. {};
-      };
-    };
-in haskellPackages.haddockLibrary
+    packageSet = pkgs.haddock_packages pkgs.haskell-ng.packages.ghc7101;
+in (packageSet.callPackage ./. {}).env

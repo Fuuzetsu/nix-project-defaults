@@ -5,7 +5,6 @@ rec {
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
       /home/shana/programming/nix-project-defaults/nixos-config/configuration.nix
-      <nixos/modules/programs/virtualbox.nix>
     ];
 
 
@@ -15,7 +14,7 @@ rec {
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sdb";
 
-  boot.kernelPackages = pkgs.linuxPackages_3_16;
+  # boot.kernelPackages = pkgs.linuxPackages_3_16;
 
   boot.cleanTmpDir = true;
 
@@ -76,13 +75,13 @@ rec {
     defaultGateway = "192.168.1.254";
     extraHosts = ''
       192.168.1.10 yuuki
-      192.168.56.102 dev.zalora.sg www.dev.zalora.sg bob.dev.zalora.sg static.dev.zalora.sg
-      192.168.56.102 dev.zalora.com.my www.dev.zalora.com.my bob.dev.zalora.com.my static.dev.zalora.com.my
-      192.168.56.102 dev.zalora.com.ph www.dev.zalora.com.ph bob.dev.zalora.com.ph static.dev.zalora.com.ph
-      192.168.56.102 dev.zalora.vn www.dev.zalora.vn bob.dev.zalora.vn static.dev.zalora.vn
-      192.168.56.102 dev.zalora.co.id www.dev.zalora.co.id bob.dev.zalora.co.id static.dev.zalora.co.id
-      192.168.56.102 dev.zalora.co.th www.dev.zalora.co.th bob.dev.zalora.co.th static.dev.zalora.co.th
-      192.168.56.102 dev.zalora.com.hk www.dev.zalora.com.hk bob.dev.zalora.com.hk static.dev.zalora.com.hk
+      192.168.58.100 dev.zalora.sg www.dev.zalora.sg bob.dev.zalora.sg static.dev.zalora.sg
+      192.168.58.100 dev.zalora.com.my www.dev.zalora.com.my bob.dev.zalora.com.my static.dev.zalora.com.my
+      192.168.58.100 dev.zalora.com.ph www.dev.zalora.com.ph bob.dev.zalora.com.ph static.dev.zalora.com.ph
+      192.168.58.100 dev.zalora.vn www.dev.zalora.vn bob.dev.zalora.vn static.dev.zalora.vn
+      192.168.58.100 dev.zalora.co.id www.dev.zalora.co.id bob.dev.zalora.co.id static.dev.zalora.co.id
+      192.168.58.100 dev.zalora.co.th www.dev.zalora.co.th bob.dev.zalora.co.th static.dev.zalora.co.th
+      192.168.58.100 dev.zalora.com.hk www.dev.zalora.com.hk bob.dev.zalora.com.hk static.dev.zalora.com.hk
     '';
     firewall.enable = false;
     hostName = "lenalee";
@@ -142,6 +141,11 @@ rec {
 
   };
 
+  services.mysql = {
+    enable = true;
+    package = pkgs.mysql;
+  };
+
   programs.ssh.startAgent = false;
 
   services.redshift = {
@@ -168,6 +172,40 @@ rec {
   services.ntp.enable = true;
   time.timeZone = "Europe/London";
 
+  services.virtualboxHost.enable = true;
+  nixpkgs.config.virtualbox.enableExtensionPack = false;
+  services.virtualboxHost.enableHardening = true;
+
+  services.strongswan = {
+    enable = true;
+    secrets = [ "/home/shana/programming/zalora-snippets/ipsec.secrets" ];
+    setup = {
+      charondebug = "ike 1, knl 4, cfg 2";
+    };
+    connections = {
+      "%default" = {
+        type = "transport";
+        left = "%defaultroute";
+        leftprotoport = "17/1701";
+        rightprotoport= "17/1701";
+        ikelifetime = "60m";
+        keylife = "20m";
+        rekeymargin = "3m";
+        keyingtries = "1";
+        authby = "secret";
+      };
+
+      zalora = {
+        left = "192.168.1.11";
+        leftfirewall = "no";
+        right = "office.zalora.com";
+        auto = "start";
+        keyexchange = "ikev2";
+        rightauth = "psk";
+      };
+    };
+  };
+
   # Users
   users.extraUsers.shana = {
     createHome = true;
@@ -188,7 +226,7 @@ rec {
     cantata = pkgs.lib.overrideDerivation # Local SVN checkout
                  (self.cantata.override { withQt4 = false; withQt5 = true; })
                  (attrs: rec {
-                    name = "cantata-1.3.54-r5634";
+                    name = "cantata-1.3.54-r5652";
                     src = /home/shana/programming/cantata;
                     unpackPhase = "";
                     sourceRoot = "";
@@ -201,8 +239,12 @@ rec {
   };
 
   environment.systemPackages = with pkgs;
-    [ (callPackage /home/shana/programming/nixpkgs/pkgs/servers/mpd { pulseaudioSupport = false; })
-      (mpv.override { pulseSupport = false; })
+    [ (callPackage /home/shana/programming/nixpkgs/pkgs/applications/video/mpv {
+        pulseSupport = false;
+        lua = lua5_1;
+        lua5_sockets = lua5_1_sockets;
+      })
+      wireshark
       PPSSPP
       astyle
       cantata
@@ -225,10 +267,12 @@ rec {
       kde4.oxygen_icons
       lsof
       mcomix
+      mpd
       mupdf
       nitrogen
       nix-repl
       nmap
+      openvpn
       p7zip
       pinentry
       python27Packages.livestreamer
@@ -250,13 +294,13 @@ rec {
       xlibs.xmodmap
       xlibs.xsetroot
       xsel
-      youtubeDL
+      (callPackage /home/shana/programming/nixpkgs/pkgs/tools/misc/youtube-dl {})
       zip
       zsh
     ];
 
   fonts = {
-    enableFontConfig = true;
+    fontconfig.enable = true;
     enableFontDir = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
@@ -277,6 +321,7 @@ rec {
     "http://hydra.nixos.org"
     "http://cache.nixos.org"
     "http://yuuki:3000"
+
   ];
 
   nix.binaryCaches = [

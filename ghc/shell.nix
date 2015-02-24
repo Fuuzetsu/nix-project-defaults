@@ -5,6 +5,6 @@ let pkgs = import <nixpkgs> {};
     };
 in pkgs.lib.overrideDerivation ghcHead (attrs: {
   name = "ghc-HEAD";
-  src = /home/shana/programming/ghc;
+  src = "/home/shana/programming/ghc";
   buildInputs = [ pkgs.git ] ++ attrs.buildInputs;
 })

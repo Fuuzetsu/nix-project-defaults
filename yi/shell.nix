@@ -2,7 +2,9 @@ let pkgs = import <nixpkgs> {};
     myHaskellPackages = pkgs.myHaskellPackages;
     haskellPackages = myHaskellPackages.override {
       extension = self: super: {
-        yi = myHaskellPackages.callPackage ./. {};
+        yi = myHaskellPackages.callPackage ./. {
+          yiLanguage = myHaskellPackages.callPackage /home/shana/programming/yi-language {};
+        };
       };
     };
 in pkgs.lib.overrideDerivation haskellPackages.yi (attrs: {

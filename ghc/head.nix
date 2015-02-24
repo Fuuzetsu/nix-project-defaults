@@ -1,15 +1,16 @@
-{ stdenv, fetchurl, ghc, perl, gmp, ncurses, happy, alex, autoconf, automake }:
+{ stdenv, fetchurl, ghc, perl, gmp, ncurses, happy, alex, autoconf, automake, git }:
 
 stdenv.mkDerivation rec {
-  version = "7.9.20141106";
+  version = "HEAD";
   name = "ghc-${version}";
 
-  src = fetchurl {
-    url = "http://deb.haskell.org/dailies/2014-11-06/ghc_${version}.orig.tar.bz2";
-    sha256 = "1si8wx8a2lrg5ba13vwpisssxa3rcxi5a7fqxhgapa8d2i2w7gaz";
-  };
+  src = /home/shana/programming/ghc;
+  # src = fetchurl {
+  #   url = "http://deb.haskell.org/dailies/2014-12-08/ghc_${version}.orig.tar.bz2";
+  #   sha256 = "16izfs2cxlyl70i9f98qg90gcaiby5glab14745x4qprpyyig7hi";
+  # };
 
-  buildInputs = [ ghc perl gmp ncurses happy alex autoconf automake ];
+  buildInputs = [ ghc perl gmp ncurses happy alex autoconf automake git ];
 
   enableParallelBuilding = true;
 
@@ -18,18 +19,22 @@ stdenv.mkDerivation rec {
     libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-gmp-includes="${gmp}/include"
     libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-gmp-libraries="${gmp}/lib"
     libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-gmp-includes="${gmp}/include"
+    libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-includes="${ncurses}/include"
+    libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-libraries="${ncurses}/lib"
     DYNAMIC_BY_DEFAULT = NO
   '';
 
   preConfigure = ''
-    echo "${buildMK}" > mk/build.mk
-    perl boot
+    echo >mk/build.mk "${buildMK}"
     sed -i -e 's|-isysroot /Developer/SDKs/MacOSX10.5.sdk||' configure
   '' + stdenv.lib.optionalString (!stdenv.isDarwin) ''
     export NIX_LDFLAGS="$NIX_LDFLAGS -rpath $out/lib/ghc-${version}"
   '';
 
-  configureFlags = "--with-gcc=${stdenv.gcc}/bin/gcc";
+  configureFlags = [
+    "--with-gcc=${stdenv.cc}/bin/cc"
+    "--with-gmp-includes=${gmp}/include" "--with-gmp-libraries=${gmp}/lib"
+  ];
 
   # required, because otherwise all symbols from HSffi.o are stripped, and
   # that in turn causes GHCi to abort
