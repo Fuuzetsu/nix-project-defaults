@@ -95,6 +95,13 @@ in
     provideOldAttributeNames = false;
   };
 
+  myrapi_packages = pkgs: pkgs.override {
+    overrides = se : su : {
+      servant = haskellPackage se "servant-0.2.2";
+      servant-client = haskellPackage se "servant-client-0.2.2";
+    };
+  };
+
   general_packages = pkgs: pkgs.override {
     overrides = se : su : rec {
       cabal2nix = normalPackageS se "cabal2nix";
