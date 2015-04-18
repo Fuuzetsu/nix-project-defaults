@@ -1,8 +1,3 @@
 let pkgs = import <nixpkgs> {};
-    myHaskellPackages = pkgs.myHaskellPackages;
-    haskellPackages = myHaskellPackages.override {
-      extension = self: super: {
-        yiFuzzyOpen = myHaskellPackages.callPackage ./. {};
-      };
-    };
-in haskellPackages.yiFuzzyOpen
+    packageSet = pkgs.yi_packages pkgs.haskell-ng.packages.ghc7101;
+in packageSet.callPackage ./. {}

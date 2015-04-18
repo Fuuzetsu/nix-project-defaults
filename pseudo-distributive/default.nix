@@ -11,7 +11,7 @@ agda.mkDerivation (self: rec {
 
   meta = {
     homepage = "https://github.com/Fuuzetsu/pseudo-distributive";
-    description = "Categories parametrized by morphism equality, in Agda";
+    description = "Pseudo-distributive laws";
     license = stdenv.lib.licenses.bsd3;
     platforms = stdenv.lib.platforms.unix;
     maintainers = with stdenv.lib.maintainers; [ fuuzetsu ];

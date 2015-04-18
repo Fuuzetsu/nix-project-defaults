@@ -75,13 +75,6 @@ rec {
     defaultGateway = "192.168.1.254";
     extraHosts = ''
       192.168.1.10 yuuki
-      192.168.58.100 dev.zalora.sg www.dev.zalora.sg bob.dev.zalora.sg static.dev.zalora.sg
-      192.168.58.100 dev.zalora.com.my www.dev.zalora.com.my bob.dev.zalora.com.my static.dev.zalora.com.my
-      192.168.58.100 dev.zalora.com.ph www.dev.zalora.com.ph bob.dev.zalora.com.ph static.dev.zalora.com.ph
-      192.168.58.100 dev.zalora.vn www.dev.zalora.vn bob.dev.zalora.vn static.dev.zalora.vn
-      192.168.58.100 dev.zalora.co.id www.dev.zalora.co.id bob.dev.zalora.co.id static.dev.zalora.co.id
-      192.168.58.100 dev.zalora.co.th www.dev.zalora.co.th bob.dev.zalora.co.th static.dev.zalora.co.th
-      192.168.58.100 dev.zalora.com.hk www.dev.zalora.com.hk bob.dev.zalora.com.hk static.dev.zalora.com.hk
     '';
     firewall.enable = false;
     hostName = "lenalee";
@@ -101,8 +94,6 @@ rec {
   # nVidia driver
   nixpkgs.config.allowUnfree = true;
   hardware.opengl.driSupport32Bit = true;
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -125,25 +116,36 @@ rec {
     startGnuPGAgent = true;
 
     windowManager.xmonad.enable = true;
-    windowManager.xmonad.extraPackages = self: [ self.xmonadContrib ];
+    windowManager.xmonad.extraPackages = self: [ self.xmonad-contrib ];
     windowManager.default = "xmonad";
     desktopManager.default = "none";
 
-    displayManager.slim.defaultUser = "shana";
-    displayManager.slim.autoLogin = false;
-    displayManager.slim.theme = "/home/shana/.slim-theme/slim-theme-r6.tar.gz";
-    displayManager.sessionCommands = ''
-        ${pkgs.xlibs.xmodmap}/bin/xmodmap -e "pointer = 3 2 1"
-        ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
-        ${pkgs.xlibs.xrandr} --output HDMI-0 --mode 1920x1080 --right-of DVI-D-0
-        nitrogen --restore
+    xrandrHeads = [ "DVI-D-0" "HDMI-0" ];
+
+    inputClassSections =
+      let s =
+        ''
+          Identifier "MouseOptions"
+            MatchIsPointer "on"
+            Option "ButtonMapping" "3 2 1"
+        '';
+      in [s];
+
+    displayManager.lightdm = {
+      enable = true;
+      extraSeatDefaults = ''
+        greeter-show-manual-login=true
+        greeter-hide-users=true
+        allow-guest=false
       '';
+    };
 
-  };
+    displayManager.sessionCommands = ''
+      ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
+      nitrogen --restore
+      ${pkgs.xscreensaver}/bin/xscreensaver -no-splash &
+    '';
 
-  services.mysql = {
-    enable = true;
-    package = pkgs.mysql;
   };
 
   programs.ssh.startAgent = false;
@@ -172,40 +174,6 @@ rec {
   services.ntp.enable = true;
   time.timeZone = "Europe/London";
 
-  services.virtualboxHost.enable = true;
-  nixpkgs.config.virtualbox.enableExtensionPack = false;
-  services.virtualboxHost.enableHardening = true;
-
-  services.strongswan = {
-    enable = true;
-    secrets = [ "/home/shana/programming/zalora-snippets/ipsec.secrets" ];
-    setup = {
-      charondebug = "ike 1, knl 4, cfg 2";
-    };
-    connections = {
-      "%default" = {
-        type = "transport";
-        left = "%defaultroute";
-        leftprotoport = "17/1701";
-        rightprotoport= "17/1701";
-        ikelifetime = "60m";
-        keylife = "20m";
-        rekeymargin = "3m";
-        keyingtries = "1";
-        authby = "secret";
-      };
-
-      zalora = {
-        left = "192.168.1.11";
-        leftfirewall = "no";
-        right = "office.zalora.com";
-        auto = "start";
-        keyexchange = "ikev2";
-        rightauth = "psk";
-      };
-    };
-  };
-
   # Users
   users.extraUsers.shana = {
     createHome = true;
@@ -224,9 +192,12 @@ rec {
 
     # Override Cantata expression to point at local checkout.
     cantata = pkgs.lib.overrideDerivation # Local SVN checkout
-                 (self.cantata.override { withQt4 = false; withQt5 = true; })
+                 (self.cantata.override { withQt4 = false;
+                                          withQt5 = true;
+                                          qt5 = pkgs.qt54.svg;
+                                        })
                  (attrs: rec {
-                    name = "cantata-1.3.54-r5652";
+                    name = "cantata-r5741";
                     src = /home/shana/programming/cantata;
                     unpackPhase = "";
                     sourceRoot = "";
@@ -245,7 +216,6 @@ rec {
         lua5_sockets = lua5_1_sockets;
       })
       wireshark
-      PPSSPP
       astyle
       cantata
       cloc
@@ -268,11 +238,11 @@ rec {
       lsof
       mcomix
       mpd
+      mumble
       mupdf
       nitrogen
       nix-repl
       nmap
-      openvpn
       p7zip
       pinentry
       python27Packages.livestreamer
@@ -282,7 +252,7 @@ rec {
       screen
       scrot
       sshfsFuse
-      (callPackage /home/shana/programming/nixpkgs/pkgs/applications/graphics/sxiv {})
+      sxiv
       tesseract
       thunderbird
       unzip
@@ -297,6 +267,7 @@ rec {
       (callPackage /home/shana/programming/nixpkgs/pkgs/tools/misc/youtube-dl {})
       zip
       zsh
+      xscreensaver
     ];
 
   fonts = {
@@ -321,13 +292,14 @@ rec {
     "http://hydra.nixos.org"
     "http://cache.nixos.org"
     "http://yuuki:3000"
-
+    "http://headcounter.org/hydra"
   ];
 
   nix.binaryCaches = [
     "http://hydra.nixos.org"
     "http://cache.nixos.org"
     "http://yuuki:3000"
+    "http://headcounter.org/hydra"
   ];
 
   nix.gc.automatic = false;

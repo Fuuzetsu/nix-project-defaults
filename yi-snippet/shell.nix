@@ -1,8 +1,3 @@
 let pkgs = import <nixpkgs> {};
-    myHaskellPackages = pkgs.haskellPackages;
-    haskellPackages = myHaskellPackages.override {
-      extension = self: super: {
-        yiSnippet = myHaskellPackages.callPackage ./. {};
-      };
-    };
-in haskellPackages.yiSnippet
+    packageSet = pkgs.haskell-ng.packages.ghc7101;
+in packageSet.callPackage ./. {}

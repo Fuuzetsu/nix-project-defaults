@@ -3,7 +3,7 @@
 }:
 mkDerivation {
   pname = "haddock-library";
-  version = "1.2.0";
+  version = "1.2.1";
   src = /home/shana/programming/haddock/haddock-library;
   buildDepends = [ base bytestring deepseq transformers ];
   testDepends = [
@@ -12,5 +12,4 @@ mkDerivation {
   homepage = "http://www.haskell.org/haddock/";
   description = "Library exposing some functionality of Haddock";
   license = stdenv.lib.licenses.bsd3;
-  maintainers = with stdenv.lib.maintainers; [ fuuzetsu ];
 }
