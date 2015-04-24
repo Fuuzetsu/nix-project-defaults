@@ -197,7 +197,7 @@ rec {
                                           qt5 = pkgs.qt54.svg;
                                         })
                  (attrs: rec {
-                    name = "cantata-r5741";
+                    name = "cantata-r5744";
                     src = /home/shana/programming/cantata;
                     unpackPhase = "";
                     sourceRoot = "";
@@ -205,7 +205,7 @@ rec {
 
     emacsEnv = pkgs.buildEnv {
       name = "emacs-env";
-      paths = [ pkgs.haskellPackages.Agda pkgs.emacs ];
+      paths = [ pkgs.haskell-ng.packages.ghc784.Agda pkgs.emacs ];
     };
   };
 
