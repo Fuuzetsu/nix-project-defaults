@@ -1,4 +1,4 @@
-{ stdenv, agda, fetchgit, AgdaStdlib, categories }:
+{ stdenv, agda, fetchgit, AgdaStdlib, categories, texLiveFull }:
 
 agda.mkDerivation (self: rec {
   version = "0.0.0.0";
@@ -6,7 +6,7 @@ agda.mkDerivation (self: rec {
 
   src = /home/shana/programming/pseudo-distributive;
 
-  buildDepends = [ AgdaStdlib categories ];
+  buildDepends = [ AgdaStdlib categories texLiveFull ];
   sourceDirectories = [ "." ];
 
   meta = {
