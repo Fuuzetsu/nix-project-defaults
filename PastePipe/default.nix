@@ -2,7 +2,7 @@
 }:
 mkDerivation {
   pname = "PastePipe";
-  version = "1.7";
+  version = "1.8";
   src = /home/shana/programming/pastepipe;
   isLibrary = true;
   isExecutable = true;
