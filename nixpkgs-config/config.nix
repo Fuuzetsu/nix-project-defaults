@@ -22,6 +22,11 @@ let
   normalPackageSG = s: p: pkgs.lib.overrideDerivation (normalPackageS s p)
     (attrs: { src = pkgs.fetchgitLocal (programmingDir + p); });
 
+  # Like normalPackageSG but looks in a subdirectory of the git
+  # checkout instead.
+  normalPackageSGV = s: d: p: pkgs.lib.overrideDerivation (normalPackageS s p)
+    (attrs: { src = pkgs.fetchgitLocal (programmingDir + d) + "/" + p; });
+
   nixpkgsTop = programmingDir + "nixpkgs/pkgs/";
   nixpkgsNorm = p: pkgs.callPackage (nixpkgsTop + p);
 
@@ -48,9 +53,9 @@ in
 
   haddock_packages = p: p.override {
     overrides = se : su : rec {
-      haddock-api        = normalPackageS se "haddock-api";
-      haddock-library    = normalPackageS se "haddock-library";
-      haddock            = normalPackageS se "haddock";
+      haddock-api        = normalPackageSGV se "haddock" "haddock-api";
+      haddock-library    = normalPackageSGV se "haddock" "haddock-library";
+      haddock            = normalPackageSG se "haddock";
     };
     provideOldAttributeNames = false;
   };
