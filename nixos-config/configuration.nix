@@ -197,8 +197,8 @@ rec {
                                           qt5 = pkgs.qt54.svg;
                                         })
                  (attrs: rec {
-                    name = "cantata-r5744";
-                    src = /home/shana/programming/cantata;
+                    name = "cantata-git";
+                    src = pkgs.fetchgitLocal /home/shana/programming/cantata;
                     unpackPhase = "";
                     sourceRoot = "";
                  });
