@@ -1,8 +1,3 @@
 let pkgs = import <nixpkgs> {};
-    myHaskellPackages = pkgs.myHaskellPackages;
-    haskellPackages = myHaskellPackages.override {
-      extension = self: super: {
-        wordTrie = myHaskellPackages.callPackage ./. {};
-      };
-    };
-in haskellPackages.wordTrie
+    packageSet = pkgs.haskell-ng.packages.ghc7101;
+in packageSet.callPackage ./. {}
