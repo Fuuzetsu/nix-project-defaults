@@ -131,13 +131,8 @@ rec {
         '';
       in [s];
 
-    displayManager.lightdm = {
+    displayManager.kdm = {
       enable = true;
-      extraSeatDefaults = ''
-        greeter-show-manual-login=true
-        greeter-hide-users=true
-        allow-guest=false
-      '';
     };
 
     displayManager.sessionCommands = ''
@@ -194,7 +189,6 @@ rec {
     cantata = pkgs.lib.overrideDerivation # Local SVN checkout
                  (self.cantata.override { withQt4 = false;
                                           withQt5 = true;
-                                          qt5 = pkgs.qt54.svg;
                                         })
                  (attrs: rec {
                     name = "cantata-git";
