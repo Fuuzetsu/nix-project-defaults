@@ -104,6 +104,13 @@ rec {
                                  "--netpaths='/mnt/hitagi /mnt/mikan /mnt/yami'"
                                ];
 
+  services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql92;
+  };
+
+  services.virtualboxHost.enable = true;
+
   # Enable the X11 windowing system.
   services.xserver = {
     videoDrivers = [ "nvidia" ];
@@ -131,8 +138,13 @@ rec {
         '';
       in [s];
 
-    displayManager.kdm = {
+    displayManager.lightdm = {
       enable = true;
+      extraSeatDefaults = ''
+        greeter-show-manual-login=true
+        greeter-hide-users=true
+        allow-guest=false
+      '';
     };
 
     displayManager.sessionCommands = ''
@@ -199,7 +211,7 @@ rec {
 
     emacsEnv = pkgs.buildEnv {
       name = "emacs-env";
-      paths = [ pkgs.haskell-ng.packages.ghc784.Agda pkgs.emacs ];
+      paths = [ pkgs.haskell-ng.packages.ghc7101.Agda pkgs.emacs ];
     };
   };
 
@@ -287,13 +299,14 @@ rec {
     "http://cache.nixos.org"
     "http://yuuki:3000"
     "http://headcounter.org/hydra"
+    "http://hydra.cryp.to"
   ];
 
   nix.binaryCaches = [
     "http://hydra.nixos.org"
     "http://cache.nixos.org"
-    "http://yuuki:3000"
-    "http://headcounter.org/hydra"
+    #"http://yuuki:3000"
+    #"http://headcounter.org/hydra"
   ];
 
   nix.gc.automatic = false;
