@@ -48,7 +48,6 @@ in
     overrides = se : su : rec {
       osz-loader         = normalPackageS se "osz-loader";
     };
-    provideOldAttributeNames = false;
   };
 
   haddock_packages = p: p.override {
@@ -57,7 +56,6 @@ in
       haddock-library    = normalPackageSGV se "haddock" "haddock-library";
       haddock            = normalPackageSG se "haddock";
     };
-    provideOldAttributeNames = false;
   };
 
   myrapi_packages = p: p.override {
