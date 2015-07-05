@@ -58,6 +58,15 @@ in
     };
   };
 
+  hspec_packages = p: p.override {
+    overrides = se : su : rec {
+      hspec = normalPackageSG se "hspec";
+      hspec-core = normalPackageSGV se "hspec" "hspec-core";
+      hspec-discover = normalPackageSGV se "hspec" "hspec-discover";
+      hspec-expectations = normalPackageSG se "hspec-expectations";
+    };
+  };
+
   myrapi_packages = p: p.override {
     overrides = se : su : {
       servant = haskellPackage se "servant-0.2.2";
