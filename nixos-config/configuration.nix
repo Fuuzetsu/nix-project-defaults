@@ -53,6 +53,7 @@ rec {
     fsType = "ext4";
   };
 
+  /*
   fileSystems."/mnt/yami" = {
     device = "yuuki:/yami";
     fsType = "nfs";
@@ -67,6 +68,7 @@ rec {
     device = "yuuki:/hitagi";
     fsType = "nfs";
   };
+  */
 
   swapDevices =
     [ { device = "/dev/disk/by-label/lenalee-swap"; } ];
@@ -331,7 +333,7 @@ rec {
 
   services.cron.systemCronJobs = [
       "30 */1 * * * root nix-pull &>/dev/null http://hydra.nixos.org/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
-      "20 */1 * * * root nix-pull &>/dev/null http://yuuki:3000/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
+      #"20 */1 * * * root nix-pull &>/dev/null http://yuuki:3000/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
     ];
 
 }
