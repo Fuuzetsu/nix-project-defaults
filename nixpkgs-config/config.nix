@@ -37,6 +37,11 @@ let
   buildAllLocally = pk: pk.lib.attrsets.mapAttrs (n: v: buildLocally pk v);
 
   ghc7101 = pkgs.haskell-ng.packages.ghc7101;
+
+  fakeLicense = p: pkgs.lib.overrideDerivation p (attrs: {
+    preConfigure = "rm LICENSE && touch LICENSE";
+  });
+
 in
 { #ffmpeg.x11grab = true;
   allowUnfree = true;
@@ -60,9 +65,9 @@ in
 
   hspec_packages = p: p.override {
     overrides = se : su : rec {
-      hspec = normalPackageSG se "hspec";
-      hspec-core = normalPackageSGV se "hspec" "hspec-core";
-      hspec-discover = normalPackageSGV se "hspec" "hspec-discover";
+      hspec = normalPackageS se "hspec";
+      hspec-core = fakeLicense (normalPackageS se "hspec-core");
+      hspec-discover = fakeLicense (normalPackageS se "hspec-discover");
       hspec-expectations = normalPackageSG se "hspec-expectations";
     };
   };
