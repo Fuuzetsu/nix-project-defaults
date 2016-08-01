@@ -1,28 +1,35 @@
-{ stdenv, fetchurl, ghc, perl, gmp, ncurses, happy, alex, autoconf, automake, git }:
+{ stdenv, fetchgit, ghc, perl, gmp, ncurses, libiconv, autoconf, automake, happy, alex, git }:
 
-stdenv.mkDerivation rec {
-  version = "HEAD";
-  name = "ghc-${version}";
-
-  src = /home/shana/programming/ghc;
-  # src = fetchurl {
-  #   url = "http://deb.haskell.org/dailies/2014-12-08/ghc_${version}.orig.tar.bz2";
-  #   sha256 = "16izfs2cxlyl70i9f98qg90gcaiby5glab14745x4qprpyyig7hi";
-  # };
-
-  buildInputs = [ ghc perl gmp ncurses happy alex autoconf automake git ];
-
-  enableParallelBuilding = true;
+let
 
   buildMK = ''
-    libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-gmp-libraries="${gmp}/lib"
-    libraries/integer-gmp_CONFIGURE_OPTS += --configure-option=--with-gmp-includes="${gmp}/include"
-    libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-gmp-libraries="${gmp}/lib"
-    libraries/integer-gmp2_CONFIGURE_OPTS += --configure-option=--with-gmp-includes="${gmp}/include"
-    libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-includes="${ncurses}/include"
-    libraries/terminfo_CONFIGURE_OPTS += --configure-option=--with-curses-libraries="${ncurses}/lib"
     DYNAMIC_BY_DEFAULT = NO
+    SRC_HC_OPTS     = -H32m -O -fasm
+    GhcStage1HcOpts = -O -fasm
+    GhcStage2HcOpts = -O0 -DDEBUG -Wall
+    GhcLibHcOpts    = -O -fasm
+    GhcLibWays      = v
+    SplitObjs       = NO
+    ${stdenv.lib.optionalString stdenv.isDarwin ''
+      libraries/base_CONFIGURE_OPTS += --configure-option=--with-iconv-includes="${libiconv}/include"
+      libraries/base_CONFIGURE_OPTS += --configure-option=--with-iconv-libraries="${libiconv}/lib"
+    ''}
   '';
+
+in
+
+stdenv.mkDerivation rec {
+  version = "7.10-git";
+  name = "ghc-${version}";
+
+  src = "/home/shana/programming/ghc";
+
+  postUnpack = ''
+    patchShebangs .
+    ./boot
+  '';
+
+  buildInputs = [ ghc perl autoconf automake happy alex git ];
 
   preConfigure = ''
     echo >mk/build.mk "${buildMK}"
@@ -34,20 +41,22 @@ stdenv.mkDerivation rec {
   configureFlags = [
     "--with-gcc=${stdenv.cc}/bin/cc"
     "--with-gmp-includes=${gmp}/include" "--with-gmp-libraries=${gmp}/lib"
+    "--with-curses-includes=${ncurses}/include" "--with-curses-libraries=${ncurses}/lib"
   ];
+
+
+
+
+  enableParallelBuilding = true;
 
   # required, because otherwise all symbols from HSffi.o are stripped, and
   # that in turn causes GHCi to abort
-  stripDebugFlags = [ "-S" "--keep-file-symbols" ];
+  stripDebugFlags = [ "-S" ] ++ stdenv.lib.optional (!stdenv.isDarwin) "--keep-file-symbols";
 
   meta = {
     homepage = "http://haskell.org/ghc";
     description = "The Glasgow Haskell Compiler";
-    maintainers = [
-      stdenv.lib.maintainers.marcweber
-      stdenv.lib.maintainers.andres
-      stdenv.lib.maintainers.simons
-    ];
+    maintainers = with stdenv.lib.maintainers; [ marcweber andres simons ];
     inherit (ghc.meta) license platforms;
   };
 

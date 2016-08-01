@@ -3,10 +3,10 @@
 }:
 mkDerivation {
   pname = "haddock-library";
-  version = "1.2.1";
+  version = "1.4.0";
   src = /home/shana/programming/haddock/haddock-library;
-  buildDepends = [ base bytestring deepseq transformers ];
-  testDepends = [
+  libraryHaskellDepends = [ base bytestring deepseq transformers ];
+  testHaskellDepends = [
     base base-compat bytestring deepseq hspec QuickCheck transformers
   ];
   homepage = "http://www.haskell.org/haddock/";

@@ -14,39 +14,39 @@ rec {
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sdb";
 
-  # boot.kernelPackages = pkgs.linuxPackages_3_16;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.cleanTmpDir = true;
 
-  fileSystems."/mnt/mafuyu" = {
-    device = "/dev/disk/by-label/mafuyu";
-    fsType = "ext4";
-  };
+  # fileSystems."/mnt/mafuyu" = {
+  #   device = "/dev/disk/by-label/mafuyu";
+  #   fsType = "ext4";
+  # };
 
-  fileSystems."/mnt/tomoyo" = {
-    device = "/dev/disk/by-label/tomoyo";
-    fsType = "ext4";
-  };
+  # fileSystems."/mnt/tomoyo" = {
+  #   device = "/dev/disk/by-label/tomoyo";
+  #   fsType = "ext4";
+  # };
 
-  fileSystems."/mnt/kotomi" = {
-    device = "/dev/disk/by-label/kotomi";
-    fsType = "ext4";
-  };
+  # fileSystems."/mnt/kotomi" = {
+  #   device = "/dev/disk/by-label/kotomi";
+  #   fsType = "ext4";
+  # };
 
-  fileSystems."/export/mafuyu" = {
-    device = "/mnt/mafuyu";
-    options = "bind";
-  };
+  # fileSystems."/export/mafuyu" = {
+  #   device = "/mnt/mafuyu";
+  #   options = "bind";
+  # };
 
-  fileSystems."/export/tomoyo" = {
-    device = "/mnt/tomoyo";
-    options = "bind";
-  };
+  # fileSystems."/export/tomoyo" = {
+  #   device = "/mnt/tomoyo";
+  #   options = "bind";
+  # };
 
-  fileSystems."/export/kotomi" = {
-    device = "/mnt/kotomi";
-    options = "bind";
-  };
+  # fileSystems."/export/kotomi" = {
+  #   device = "/mnt/kotomi";
+  #   options = "bind";
+  # };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/541a5fab-0935-4dd1-b54c-f7b43e4b0947";
@@ -58,17 +58,17 @@ rec {
     device = "yuuki:/yami";
     fsType = "nfs";
   };
-
-  fileSystems."/mnt/mikan" = {
-    device = "yuuki:/mikan";
-    fsType = "nfs";
-  };
-
-  fileSystems."/mnt/hitagi" = {
-    device = "yuuki:/hitagi";
-    fsType = "nfs";
-  };
   */
+  # fileSystems."/mnt/mikan" = {
+  #   device = "yuuki:/mikan";
+  #   fsType = "nfs";
+  # };
+
+  # fileSystems."/mnt/hitagi" = {
+  #   device = "yuuki:/hitagi";
+  #   fsType = "nfs";
+  # };
+
 
   swapDevices =
     [ { device = "/dev/disk/by-label/lenalee-swap"; } ];
@@ -81,7 +81,7 @@ rec {
     firewall.enable = false;
     hostName = "lenalee";
     interfaces = {
-      enp0s25 = { ipAddress = "192.168.1.11"; prefixLength = 24; };
+      enp0s31f6 = { ipAddress = "192.168.1.11"; prefixLength = 24; };
     };
     nameservers = [ "192.168.1.254" ];
     useDHCP = false;
@@ -94,7 +94,7 @@ rec {
   };
 
   # nVidia driver
-  nixpkgs.config.allowUnfree = true;
+
   hardware.opengl.driSupport32Bit = true;
 
   # Enable the OpenSSH daemon.
@@ -111,7 +111,21 @@ rec {
     package = pkgs.postgresql92;
   };
 
-  services.virtualboxHost.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableHardening = false;
+
+  users.extraGroups.vboxusers.members = [ "shana" ];
+
+  virtualisation.docker = {
+    enable = true;
+    extraOptions = "-H 0.0.0.0:5555 -H unix:///var/run/docker.sock";
+    storageDriver = "devicemapper";
+    postStart = ''
+      while ! [ -e /var/run/docker.pid ]; do
+        sleep 0.1
+      done
+    '';
+  };
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -129,7 +143,7 @@ rec {
     windowManager.default = "xmonad";
     desktopManager.default = "none";
 
-    xrandrHeads = [ "DVI-D-0" "HDMI-0" ];
+    xrandrHeads = [ "HDMI-0" "DVI-I-1" ];
 
     inputClassSections =
       let s =
@@ -192,51 +206,59 @@ rec {
     useDefaultShell = true;
   };
 
-  users.extraGroups.vboxusers.members = [ "shana" ];
+
 
 
   nixpkgs.system = "x86_64-linux";
 
-  nixpkgs.config.packageOverrides = self: rec {
+  nixpkgs.config = {
+    packageOverrides = self: rec {
 
-    # Override Cantata expression to point at local checkout.
-    cantata = pkgs.lib.overrideDerivation # Local SVN checkout
-                 (self.cantata.override { withQt4 = false;
-                                          withQt5 = true;
-                                        })
-                 (attrs: rec {
-                    name = "cantata-git";
-                    src = pkgs.fetchgitLocal /home/shana/programming/cantata;
-                    unpackPhase = "";
-                    sourceRoot = "";
-                 });
+      # Override Cantata expression to point at local checkout.
+      cantata = pkgs.lib.overrideDerivation # Local SVN checkout
+                   (self.cantata.override { withQt4 = false;
+                                            withQt5 = true;
+                                          })
+                   (attrs: rec {
+                      name = "cantata-git";
+                      src = pkgs.fetchgitLocal /home/shana/programming/cantata;
+                      unpackPhase = "";
+                      sourceRoot = "";
+                   });
 
-    emacsEnv = pkgs.buildEnv {
-      name = "emacs-env";
-      paths = [ pkgs.haskell-ng.packages.ghc7101.Agda pkgs.emacs ];
+      emacsEnv = pkgs.buildEnv {
+        name = "emacs-env";
+        paths = [ /*pkgs.haskellPackages.Agda*/ pkgs.emacs ];
+      };
     };
+
+    virtualbox.enableExtensionPack = true;
+
+    firefox.enableGoogleTalkPlugin = true;
+    firefox.icedtea = true;
+
+
+    pulseaudio = true;
+
+    # nvidia
+    allowUnfree = true;
   };
 
   environment.systemPackages = with pkgs;
-    [ (callPackage /home/shana/programming/nixpkgs/pkgs/applications/video/mpv {
-        pulseSupport = false;
-        lua = lua5_1;
-        lua5_sockets = lua5_1_sockets;
-      })
-      wireshark
-      astyle
-      cantata
+    [ astyle
+      #cantata
+      cacert
       cloc
-      dwb
       elfutils
       emacsEnv
       file
+      firefoxWrapper
       gdb
-      gimp
+      #gimp
       git
-      gnome3.glade
       glib
       glxinfo
+      gnome3.glade
       gnupg
       gnupg1
       gnutls
@@ -246,14 +268,19 @@ rec {
       lsof
       mcomix
       mpd
+      mpv
       mumble
       mupdf
       nitrogen
       nix-repl
       nmap
+      openjdk
+      openssl
       p7zip
+      pavucontrol
       pinentry
       python27Packages.livestreamer
+      pythonPackages.youtube-dl
       rtmpdump
       rtorrent
       rxvt_unicode
@@ -264,19 +291,19 @@ rec {
       tesseract
       thunderbird
       unzip
+      vagrant
       wget
       xboxdrv
       xclip
-      xcompmgr
-      xfce.ristretto
-      xlibs.xmodmap
       xlibs.xsetroot
+      xscreensaver
       xsel
-      (callPackage /home/shana/programming/nixpkgs/pkgs/tools/misc/youtube-dl {})
       zip
       zsh
-      xscreensaver
     ];
+
+
+  security.setuidPrograms = [ "ncsvc" ];
 
   fonts = {
     fontconfig.enable = true;
@@ -300,7 +327,6 @@ rec {
     "http://hydra.nixos.org"
     "http://cache.nixos.org"
     "http://yuuki:3000"
-    "http://headcounter.org/hydra"
     "http://hydra.cryp.to"
   ];
 
@@ -308,8 +334,8 @@ rec {
     "http://hydra.nixos.org"
     "http://cache.nixos.org"
     #"http://yuuki:3000"
-    #"http://headcounter.org/hydra"
   ];
+  nix.binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
 
   nix.gc.automatic = false;
   nix.gc.dates = "16:00";
@@ -317,8 +343,9 @@ rec {
   nix.extraOptions = ''
     allow-unsafe-native-code-during-evaluation = true
   '';
+  nix.maxJobs = pkgs.stdenv.lib.mkForce 6;
 
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = true;
   boot.blacklistedKernelModules = [ "snd_pcsp" ];
 
   services.udev.extraRules = ''

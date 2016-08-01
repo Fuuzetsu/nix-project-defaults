@@ -10,7 +10,7 @@
 }:
 mkDerivation {
   pname = "lens";
-  version = "4.11.1";
+  version = "4.12.3";
   src = /home/shana/programming/lens;
   buildDepends = [
     array base base-orphans bifunctors bytestring comonad containers

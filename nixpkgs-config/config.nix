@@ -4,10 +4,15 @@ with pkgs;
 let
 
   nixpkgsGit = import /home/shana/programming/nixpkgs {};
+
   # Directories where I'll store extra packages.
   programmingDir = "/home/shana/programming/";
   normalProjectDir = programmingDir + "nix-project-defaults/";
   haskellProjectDir = normalProjectDir + "haskell-tmp-defaults/";
+
+  # Current master fetchgitLocal is broken for repositories with
+  # submodule so use the old implementation
+  fetchgitLocal_old = pkgs.callPackage (normalProjectDir + "fetchgitLocal") {};
 
   # Wrap callPackage with the default Haskell directories.
   haskellPackage = s: p: s.callPackage (haskellProjectDir + p) {};
@@ -20,12 +25,12 @@ let
 
   # Like normalPackageS but checks out a git version under programming
   normalPackageSG = s: p: pkgs.lib.overrideDerivation (normalPackageS s p)
-    (attrs: { src = pkgs.fetchgitLocal (programmingDir + p); });
+    (attrs: { src = fetchgitLocal_old (programmingDir + p); });
 
   # Like normalPackageSG but looks in a subdirectory of the git
   # checkout instead.
   normalPackageSGV = s: d: p: pkgs.lib.overrideDerivation (normalPackageS s p)
-    (attrs: { src = pkgs.fetchgitLocal (programmingDir + d) + "/" + p; });
+    (attrs: { src = fetchgitLocal_old (programmingDir + d) + "/" + p; });
 
   nixpkgsTop = programmingDir + "nixpkgs/pkgs/";
   nixpkgsNorm = p: pkgs.callPackage (nixpkgsTop + p);
@@ -45,7 +50,8 @@ let
 in
 { #ffmpeg.x11grab = true;
   allowUnfree = true;
-
+  firefox.enableGoogleTalkPlugin = true;
+  allowTexliveBuilds = true;
 
   packageOverrides = self: rec {
 
@@ -59,6 +65,7 @@ in
     overrides = se : su : rec {
       haddock-api        = normalPackageSGV se "haddock" "haddock-api";
       haddock-library    = normalPackageSGV se "haddock" "haddock-library";
+      haddock-test       = normalPackageSGV se "haddock" "haddock-test";
       haddock            = normalPackageSG se "haddock";
     };
   };
@@ -113,7 +120,17 @@ in
       cabal2nix = normalPackageS se "cabal2nix";
     };
   };
-
+/*
+  ghc7102-local =
+    let haskell-packages = pkgs.haskell.packages.ghc7102;
+    in haskell-packages.override {
+      ghc = pkgs.lib.overrideDerivation haskell-packages.ghc (attrs: {
+        name = "ghc-7.10.2-git";
+        src = (programmingDir + "ghc");
+        preConfigure = "perl boot\n" + attrs.preConfigure;
+      });
+    };
+*/
   wlc = normalPackage "wlc";
   loliwm = normalPackage "loliwm";
   youtubeDL = normalPackage "youtube-dl";
@@ -122,6 +139,8 @@ in
     haskellPackages = yi_packages ghc7101;
     extraPackages = p: with p; [ lens yi-fuzzy-open yi-monokai yi-snippet ];
   };
+
+  ncsvc = pkgs.callPackage_i686 ../ncsvc { };
 
   }; # end of packageOverrides
 }
