@@ -68,10 +68,6 @@
 
     ntp.enable = true;
 
-    cron.systemCronJobs = [
-      "30 */1 * * * root nix-pull &>/dev/null http://hydra.nixos.org/jobset/nixpkgs/trunk/channel/latest/MANIFEST"
-    ];
-
     # Enable the X11 windowing system.
     xserver = {
       videoDrivers = [ "nvidia" ];
@@ -83,6 +79,7 @@
 
       windowManager.xmonad.enable = true;
       windowManager.xmonad.extraPackages = self: [ self.xmonad-contrib ];
+      windowManager.xmonad.haskellPackages = pkgs.haskell.packages.ghc821;
       windowManager.default = "xmonad";
       desktopManager.default = "none";
 
@@ -136,8 +133,8 @@
   nixpkgs.system = "x86_64-linux";
   nixpkgs.config = {
     virtualbox.enableExtensionPack = true;
-    firefox.enableGoogleTalkPlugin = true;
-    firefox.icedtea = true;
+    #firefox.enableGoogleTalkPlugin = true;
+    #firefox.icedtea = true;
     pulseaudio = true;
     # nvidia
     allowUnfree = true;
@@ -149,14 +146,16 @@
       elfutils
       emacs
       file
-      firefoxWrapper
+      firefox-devedition-bin
       git
       glib
       glxinfo
       gnupg
       gnupg1
       gnutls
+      haskell.packages.ghc821.hasktags
       htop
+      jq
       mpv
       mupdf
       nitrogen
@@ -180,9 +179,11 @@
       zip
        # work
       git-crypt
+      google-cloud-sdk
       kubernetes
       kubernetes-helm
       terraform
+      wine
     ];
 
   fonts = {
@@ -204,16 +205,14 @@
   security.sudo.enable = true;
 
   nix = {
+    package = pkgs.nixUnstable;
     trustedBinaryCaches = [
-      "http://hydra.nixos.org"
       "http://cache.nixos.org"
     ];
 
     binaryCaches = [
-      "http://hydra.nixos.org"
       "http://cache.nixos.org"
     ];
-    binaryCachePublicKeys = [ "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs=" ];
 
     gc.automatic = false;
 
