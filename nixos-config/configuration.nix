@@ -68,7 +68,8 @@
 
     ntp.enable = true;
 
-    # Enable the X11 windowing system.
+    nscd.enable = false;
+
     xserver = {
       videoDrivers = [ "nvidia" ];
       enable = true;
@@ -83,7 +84,11 @@
       windowManager.default = "xmonad";
       desktopManager.default = "none";
 
-      # xrandrHeads = [ "HDMI-0" "DVI-I-1" ];
+      deviceSection = ''
+        Option "UseEdidDpi" "FALSE"
+        Option "DPI" "96 x 96"
+      '';
+
       xrandrHeads = [
         { output = "DP-4"; primary = true; }
         { output = "HDMI-0"; }
@@ -101,7 +106,6 @@
       displayManager.sessionCommands = ''
         ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name left_ptr
         ${pkgs.xscreensaver}/bin/xscreensaver -no-splash &
-        nitrogen --restore
       '';
     };
   };
@@ -109,7 +113,7 @@
   users.extraGroups.vboxusers.members = [ "shana" ];
 
   virtualisation.docker = {
-    enable = true;
+    enable = false;
   };
 
   programs.ssh.startAgent = false;
@@ -133,8 +137,6 @@
   nixpkgs.system = "x86_64-linux";
   nixpkgs.config = {
     virtualbox.enableExtensionPack = true;
-    #firefox.enableGoogleTalkPlugin = true;
-    #firefox.icedtea = true;
     pulseaudio = true;
     # nvidia
     allowUnfree = true;
@@ -183,7 +185,6 @@
       kubernetes
       kubernetes-helm
       terraform
-      wine
     ];
 
   fonts = {
@@ -216,9 +217,7 @@
 
     gc.automatic = false;
 
-    extraOptions = ''
-      allow-unsafe-native-code-during-evaluation = true
-    '';
+    gc.automatic = false;
     maxJobs = pkgs.stdenv.lib.mkForce 6;
   };
 }
