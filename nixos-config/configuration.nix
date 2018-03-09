@@ -32,7 +32,9 @@
     firewall.enable = false;
     hostName = "lenalee";
     interfaces = {
-      enp0s31f6 = { ipAddress = "192.168.1.11"; prefixLength = 24; };
+      enp0s31f6.ipv4.addresses = [
+        { address = "192.168.1.11"; prefixLength = 24; }
+      ];
     };
     nameservers = [ "192.168.1.254" ];
     useDHCP = false;
@@ -80,9 +82,13 @@
 
       windowManager.xmonad.enable = true;
       windowManager.xmonad.extraPackages = self: [ self.xmonad-contrib ];
-      windowManager.xmonad.haskellPackages = pkgs.haskell.packages.ghc821;
+      windowManager.xmonad.haskellPackages = pkgs.haskellPackages;
       windowManager.default = "xmonad";
       desktopManager.default = "none";
+
+      screenSection = ''
+        Option "metamodes" "DP-4: nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, HDMI-0: nvidia-auto-select +3840+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
+      '';
 
       deviceSection = ''
         Option "UseEdidDpi" "FALSE"
@@ -113,7 +119,7 @@
   users.extraGroups.vboxusers.members = [ "shana" ];
 
   virtualisation.docker = {
-    enable = false;
+    enable = true;
   };
 
   programs.ssh.startAgent = false;
@@ -130,7 +136,7 @@
     createHome = true;
     home = "/home/shana";
     description = "Mateusz Kowalczyk";
-    extraGroups = [ "wheel" "audio" "video" ];
+    extraGroups = [ "wheel" "audio" "video" "docker" ];
     useDefaultShell = true;
   };
 
@@ -153,9 +159,10 @@
       glib
       glxinfo
       gnupg
-      gnupg1
       gnutls
-      haskell.packages.ghc821.hasktags
+      haskellPackages.hasktags
+      haskellPackages.hlint
+      haskellPackages.apply-refact
       htop
       jq
       mpv
@@ -181,10 +188,6 @@
       zip
        # work
       git-crypt
-      google-cloud-sdk
-      kubernetes
-      kubernetes-helm
-      terraform
     ];
 
   fonts = {
@@ -214,8 +217,6 @@
     binaryCaches = [
       "http://cache.nixos.org"
     ];
-
-    gc.automatic = false;
 
     gc.automatic = false;
     maxJobs = pkgs.stdenv.lib.mkForce 6;
