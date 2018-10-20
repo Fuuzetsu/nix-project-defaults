@@ -3,8 +3,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
-      /home/shana/programming/nix-project-defaults/nixos-config/configuration.nix
+      ./hardware-configuration.nix
     ];
 
   boot = {
@@ -12,37 +11,30 @@
     kernelPackages = pkgs.linuxPackages_latest;
     cleanTmpDir = true;
 
-    loader.grub = {
-      enable = true;
-      version = 2;
-      device = "/dev/sdb";
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
     };
-  };
 
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/541a5fab-0935-4dd1-b54c-f7b43e4b0947";
-    fsType = "ext4";
+    supportedFilesystems = [
+      "exfat"
+    ];
   };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-label/lenalee-swap"; } ];
 
   networking = {
-    defaultGateway = "192.168.1.254";
-    firewall.enable = false;
-    hostName = "lenalee";
-    interfaces = {
-      enp0s31f6.ipv4.addresses = [
-        { address = "192.168.1.11"; prefixLength = 24; }
-      ];
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [];
+      allowedUDPPorts = [];
     };
-    nameservers = [ "192.168.1.254" ];
-    useDHCP = false;
+    hostName = "aya";
+    networkmanager.enable = true;
+
   };
 
   # Select internationalisation properties.
   i18n = {
-    consoleKeyMap = /home/shana/keymaps/dvp-1_2_1.map.gz;
+    consoleKeyMap = "dvp";
     defaultLocale = "en_US.UTF-8";
   };
 
@@ -55,21 +47,16 @@
   };
 
   services = {
-    openssh.enable = true;
 
-    postgresql = {
-      enable = true;
-      package = pkgs.postgresql96;
-    };
+    openssh.enable = true;
 
     redshift = {
       enable = true;
-      latitude = "51";
-      longitude = "-2";
+      latitude = "35";
+      longitude = "139";
     };
 
     ntp.enable = true;
-
     nscd.enable = false;
 
     xserver = {
@@ -80,25 +67,13 @@
       xkbOptions = "compose:caps";
       xkbVariant = "dvp";
 
+      synaptics.enable = true;
+
       windowManager.xmonad.enable = true;
       windowManager.xmonad.extraPackages = self: [ self.xmonad-contrib ];
-      windowManager.xmonad.haskellPackages = pkgs.haskellPackages;
+      windowManager.xmonad.haskellPackages = pkgs.haskell.packages.ghc822;
       windowManager.default = "xmonad";
       desktopManager.default = "none";
-
-      screenSection = ''
-        Option "metamodes" "DP-4: nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}, HDMI-0: nvidia-auto-select +3840+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
-      '';
-
-      deviceSection = ''
-        Option "UseEdidDpi" "FALSE"
-        Option "DPI" "96 x 96"
-      '';
-
-      xrandrHeads = [
-        { output = "DP-4"; primary = true; }
-        { output = "HDMI-0"; }
-      ];
 
       displayManager.lightdm = {
         enable = true;
@@ -118,25 +93,20 @@
 
   users.extraGroups.vboxusers.members = [ "shana" ];
 
-  virtualisation.docker = {
-    enable = true;
-  };
-
-  programs.ssh.startAgent = false;
-
+  programs.ssh.startAgent = true;
   programs.bash.enableCompletion = true;
 
   # Don't blind me
   systemd.services.redshift.restartIfChanged = false;
 
-  time.timeZone = "Europe/London";
+  time.timeZone = "Asia/Tokyo";
 
   # Users
   users.extraUsers.shana = {
     createHome = true;
     home = "/home/shana";
     description = "Mateusz Kowalczyk";
-    extraGroups = [ "wheel" "audio" "video" "docker" ];
+    extraGroups = [ "wheel" "audio" "video" "networkmanager" "docker" ];
     useDefaultShell = true;
   };
 
@@ -144,7 +114,6 @@
   nixpkgs.config = {
     virtualbox.enableExtensionPack = true;
     pulseaudio = true;
-    # nvidia
     allowUnfree = true;
   };
 
@@ -160,34 +129,30 @@
       glxinfo
       gnupg
       gnutls
-      haskellPackages.hasktags
-      haskellPackages.hlint
-      haskellPackages.apply-refact
+      # haskellPackages.apply-refact
+      # haskellPackages.hasktags
+      # haskellPackages.hlint
       htop
       jq
       mpv
       mupdf
+      networkmanager
       nitrogen
-      nix-repl
       nmap
       openssl
       p7zip
       pavucontrol
-      pinentry
-      pythonPackages.youtube-dl
-      rtorrent
+      # pythonPackages.youtube-dl
+      # rtorrent
       rxvt_unicode
       scrot
       sxiv
-      thunderbird
       unzip
       wget
       xlibs.xsetroot
       xscreensaver
       xsel
       zip
-       # work
-      git-crypt
     ];
 
   fonts = {
